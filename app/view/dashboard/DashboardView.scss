@@ -1,0 +1,97 @@
+// COLOR PALETTE
+$active: #12C897;
+$paused: #C8C8C8;
+$ended: #F1485B;
+
+$exec-dark-background: dynamic(#3e4752);
+$exec-light-background: dynamic(#ececec);
+$exec-tile-background: dynamic(#ffffff);
+
+$exec-blue-color: dynamic(#2e6eaf);
+$exec-red-color: dynamic(#f1495b);
+$exec-green-color: dynamic(#11c897);
+$exec-light-blue-color: dynamic(saturate(lighten($exec-blue-color, 53%), 70%));
+
+$exec-font-light-color: dynamic(#a0a7b8);
+$exec-font-color: dynamic(#878ea2);
+$exec-font-dark-color: dynamic($exec-dark-background);
+
+//Proxima Nova is preferred font, but it is not a free font.
+$exec-font-family: dynamic("Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif);
+
+$exec-font-size-small-content: dynamic(10px);
+$exec-font-size-content: dynamic(12px);
+$exec-font-size-small-title: dynamic(14px);
+$exec-font-size-medium-title: dynamic(18px);
+$exec-font-size-large-title: dynamic(20px);
+$exec-font-size-xlarge-title: dynamic(28px);
+
+$exec-font-regular: dynamic(400);
+$exec-font-semibold: dynamic(500);
+$exec-font-bold: dynamic(800);
+
+
+@include extjs-button-small-ui(
+    $ui: 'dashboard',
+    $background-color: transparent,
+    $border-color: transparent,
+    $color: $exec-font-color,
+
+    $background-color-focus: transparent,
+    $border-color-focus: transparent,
+    $color-focus: $exec-font-color,
+
+    $background-color-over: mix($exec-light-background, $button-default-background-color),
+    $border-color-over: mix($exec-light-background, $button-default-background-color),
+    $color-over: #fff,
+
+    $background-color-pressed: $button-default-background-color,
+    $border-color-pressed: $button-default-background-color,
+    $color-pressed: #fff,
+
+    $inner-border-color-focus: $button-default-background-color,
+    $inner-border-color-focus-over: $button-default-background-color,
+    $inner-border-color-focus-pressed: mix($button-default-background-color, #fff, 20%)
+);
+
+.dash-main {
+    .dash-meta {
+        width: 100%;
+        height: 100%;
+        background-color: $exec-tile-background;
+
+        -webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow:    0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+        box-shadow:         0px 1px 1px 0px rgba(0, 0, 0, 0.25);
+
+        span {
+            border-right: 1px solid $exec-light-background;
+            display: inline-block;
+            text-align: center;
+            padding: 30px 0;
+            height: 100%;
+            width: 20%;
+            white-space: nowrap;
+            overflow: hide;
+            text-transform: uppercase;
+            color: $exec-font-light-color;
+            font-weight: $exec-font-bold;
+            font-size: $exec-font-size-small-content;
+
+            div {
+                font-size: $exec-font-size-xlarge-title;
+                color: $exec-font-color;
+                font-weight: $exec-font-semibold;
+                padding-bottom: 7px;
+            }
+        }
+
+        span:last-child {
+            border-right: none;
+        }
+    }
+
+    .dash-tiles {
+        margin-bottom: 20px;
+    }
+}
