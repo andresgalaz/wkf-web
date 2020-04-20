@@ -7,14 +7,28 @@ Ext.define('wkf.view.dashboard.DashboardViewModel', {
 
     stores: {
         stTareasPendientes: {
-            fields: ['tarea', 'cant', 'porc' ],
+            fields: ['flujo','etapa','idEtapa', 'cant'],
+            
+            proxy: {
+                type : 'jsoncall',
+                extraParams : {            
+                    prm_funcion : 'xformgen4.consultaTareasPendientes',
+                }
+            },
+
+            autoLoad: true
+        },
+
+        stTareasPendientesUsr: {
+            fields: ['usr', 'vencidas', 'normal', 'nuevas'],
             data: [
-                { tarea: 'Tarea 1', porc: 68.3, cant: 105 },
-                { tarea: 'Tarea 2', porc: 1.7, cant: 290 },
-                { tarea: 'Tarea 3', porc: 17.9, cant: 18 },
-                { tarea: 'Tarea 4', porc: 10.2, cant: 10 },
-                { tarea: 'Tarea 5', porc: 1.9, cant: 2 }
+                { usr: 'Juan', vencidas: 8, normal: 12, nuevas: 18 },
+                { usr: 'Andres', vencidas: 5, normal: 4, nuevas: 9 },
+                { usr: 'Pablo', vencidas: 9, normal: 3, nuevas: 1 },
+                { usr: 'Laura', vencidas: 10, normal: 29, nuevas: 0 },
+                { usr: 'Cecilia', vencidas: 2, normal: 13, nuevas: 3 }
             ]
+
         }
     }
 });
