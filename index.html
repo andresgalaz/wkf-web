@@ -11,8 +11,11 @@
         // Indica si activa o no if (DEBUG) console.log
         var DEBUG = false;
         // Se requiere cuando se usa sencha cmd
-        var GLOBAL_HOST = 'https://app.parcelasenchiloe.cl/d';
-        // var GLOBAL_HOST = '..';
+        var GLOBAL_HOST = 'https://app.compustrom.com/d';
+        if( ! (/^localhost[:]*/.test( location.host ))){
+            // Framework compustrom
+            GLOBAL_HOST = '..';
+        }
     </script>
     <!--
     <script type="text/javascript">
