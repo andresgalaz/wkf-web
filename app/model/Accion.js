@@ -34,7 +34,6 @@ Ext.define('wkf.model.Accion', {
         			// Convierte la información cJsonData de String a JSON
         			for(i = 0; i < data.records.length; i++)
         				data.records[i].cJsonData = Ext.decode(data.records[i].cJsonData);
-        			console.log('DEBUG data:',data);
         			return data;
         		}	
         	}

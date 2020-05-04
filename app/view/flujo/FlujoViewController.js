@@ -264,7 +264,6 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         detallePanel.setActiveItem(frmAccion);
 
         vm.set('accionSeleccionada', rec);
-        console.log('DEBUG rec.data:',rec.data);
         // vm.set('accionSeleccionadaEstilo', estilo);
 
         frmAccion.loadRecord(rec);
