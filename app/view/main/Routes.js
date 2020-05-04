@@ -35,20 +35,20 @@ Ext.define('wkf.view.main.Routes', {
                 var rta = Ext.decode(response.responseText);
                 if (!rta.bConectado || rta.cUsuario == 'automata') {
                     // Si no esta conectado => fuerza pantalla login
-                    // if (refs.wndLogin) {
-                    //     refs.wndLogin.show();
-                    // } else {
-                    //     var pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-                    //         xtype: 'login',
-                    //         reference: 'wndLogin',
-                    //         listeners: {
-                    //             close: 'onLoginOk',
-                    //         }
-                    //     });
+                    if (refs.wndLogin) {
+                        refs.wndLogin.show();
+                    } else {
+                        var pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
+                            xtype: 'login',
+                            reference: 'wndLogin',
+                            listeners: {
+                                close: 'onLoginOk',
+                            }
+                        });
 
-                    //     console.log('[beforeRoute] login', pnLogin);
-                    //     pnLogin.show();
-                    // }
+                        console.log('[beforeRoute] login', pnLogin);
+                        pnLogin.show();
+                    }
                     // me.redirectTo('login');
 
                 } else if (rta.bPasswordCaducada) {

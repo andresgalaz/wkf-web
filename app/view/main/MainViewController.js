@@ -24,18 +24,18 @@ Ext.define('wkf.view.main.MainViewController', {
     },
 
     doLogin: function () {
-        // var me = this,
-        //     refs = me.getReferences(),
-        //     pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-        //         xtype: 'login',
-        //         reference: 'wndLogin',
-        //         listeners: {
-        //             close: 'onLoginOk',
-        //         }
-        //     });
+        var me = this,
+            refs = me.getReferences(),
+            pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
+                xtype: 'login',
+                reference: 'wndLogin',
+                listeners: {
+                    close: 'onLoginOk',
+                }
+            });
 
-        // console.log('[doLogin] login', pnLogin);
-        // pnLogin.show();
+        console.log('[doLogin] login', pnLogin);
+        pnLogin.show();
         // this.redirectTo('login');
     },
 
@@ -102,49 +102,49 @@ Ext.define('wkf.view.main.MainViewController', {
     },
 
     onLoginCambioPass: function (pnl, opts) {
-        // var me = this,
-        //     pnCambioPass = Ext.create({
-        //         xtype: 'pass_cambiar',
-        //         reference: 'wndCambioPass',
-        //     });
+        var me = this,
+            pnCambioPass = Ext.create({
+                xtype: 'pass_cambiar',
+                reference: 'wndCambioPass',
+            });
 
-        // Ext.Msg.show({
-        //     title: 'Compustrom - Login',
-        //     message: 'Su password ha caducado. Ingrese una nueva.',
-        //     buttons: Ext.Msg.OK,
-        //     icon: Ext.Msg.WARN
-        // });
+        Ext.Msg.show({
+            title: 'Compustrom - Login',
+            message: 'Su password ha caducado. Ingrese una nueva.',
+            buttons: Ext.Msg.OK,
+            icon: Ext.Msg.WARN
+        });
 
         // pnCambioPass.show();
     },
 
     onLogout: function () {
-        // var me = this,
-        //     refs = me.getReferences(),
-        //     pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-        //         xtype: 'login',
-        //         reference: 'wndLogin',
-        //         listeners: {
-        //             close: 'onLoginOk',
-        //         }
-        //     });
+        var me = this,
+            refs = me.getReferences(),
+            pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
+                xtype: 'login',
+                reference: 'wndLogin',
+                listeners: {
+                    close: 'onLoginOk',
+                }
+            });
 
-        // Ext.Ajax.request({
-        //     url: GLOBAL_HOST+'/do/salir',
-        //     cors: true, withCredentials: true, useDefaultXhrHeader: false,
-        //     method: 'POST',
-        //     success: function (response, opts) {
-        //         if (response.status == 200) {
-        //             console.log('[onLogout] login', pnLogin);
-        //             pnLogin.show();
+        Ext.Ajax.request({
+            url: GLOBAL_HOST+'/do/salir',
+            cors: true, withCredentials: true, useDefaultXhrHeader: false,
+            method: 'POST',
+            success: function (response, opts) {
+                if (response.status == 200) {
+                    console.log('[onLogout] login', pnLogin);
+                    pnLogin.show();
 
-        //         } else
-        //             console.error(response.responseText);
-        //     },
-        //     failure: function (response, opts) {
-        //         console.error('Falla del lado del servidor, código respuesta: ' + response.status);
-        //     }
-        // });
+                } else
+                    console.error(response.responseText);
+            },
+            failure: function (response, opts) {
+                console.error('Falla del lado del servidor, código respuesta: ' + response.status);
+            }
+        });
     },
 
     onNavigationTreeLoad: function (tree, records, successful, operation, node, eOpts) {
