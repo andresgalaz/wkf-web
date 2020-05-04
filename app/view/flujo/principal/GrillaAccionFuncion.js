@@ -23,11 +23,10 @@ Ext.define('wkf.view.flujo.principal.GrillaAccionFuncion',{
             handler: 'onGrillaAccionFuncionNueva'
         }
     ],
-    columns: [
-        {
+    columns: [{
             xtype: 'numbercolumn',
             text: 'Secuencia',
-            dataIndex: 'sec',
+            dataIndex: 'pSecuencia',
             format: '0',
             width: 75,
             editor: {
@@ -35,19 +34,17 @@ Ext.define('wkf.view.flujo.principal.GrillaAccionFuncion',{
                 minValue: 1,
                 allowBlank: false
             }
-        },
-        {
+        }, {
             text: 'Funcion',
-            dataIndex: 'funcion',
+            dataIndex: 'cFuncion',
             flex: 2,
             editor: {
                 xtype: 'textfield',
                 allowBlank: false
             }
-        },
-        {
+        }, {
             text: 'Tipo Ejecucion',
-            dataIndex: 'tpEjecucion',
+            dataIndex: 'cTpEjecucion',
             width: 150,
             editor: {
                 xtype: 'combobox',
@@ -57,30 +54,21 @@ Ext.define('wkf.view.flujo.principal.GrillaAccionFuncion',{
                 allowBlank: false,
                 displayField: 'tpEjecucion',
                 valueField: 'tpEjecucion',
-                bind: {
-                    store: '{stTpEjecucion}'
-                }
+                bind: { store: '{stTpEjecucion}' }
             }
-        },
-        {
+        }, {
             text: 'Alias',
-            dataIndex: 'alias',
+            dataIndex: 'cAlias',
             flex: 1,
-            editor: {
-                xtype: 'textfield'
-            }
-        },
-        {
+            editor: { xtype: 'textfield' }
+        }, {
             xtype: 'actioncolumn',
             width: 70,
-            items: [
-                {
+            items: [{
                     iconCls: 'x-fa fa-minus-circle',
                     margin: '0 5 0 0',
                     handler: 'onGrillaAccionFuncionEliminar',
                     tooltip: 'Eliminar funcion',
-                }
-            ]
-        }
-    ]
+                }]
+        }]
 });

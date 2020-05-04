@@ -9,10 +9,10 @@ Ext.define('wkf.view.flujo.FlujoToolbar', {
             reference: 'cbSistemas',
             fieldLabel: 'Sistema',
             editable: false,
-            displayField: 'titulo',
-            valueField: 'idSistema',
+            displayField: 'cTitulo',
+            valueField: 'pSistema',
             bind: {
-                store: '{stSistemas}'
+                store: '{stSistema}'
             },
             listeners: {
                 select: 'onCbSistemaSelect'
@@ -25,12 +25,12 @@ Ext.define('wkf.view.flujo.FlujoToolbar', {
             reference: 'cbFlujo',
             fieldLabel: 'Flujo',
             editable: false,
-            displayField: 'titulo',
-            valueField: 'idFlujo',
+            displayField: 'cTitulo',
+            valueField: 'pFlujo',
             disabled: true,
             queryMode: 'local',
             bind: {
-                store: '{stFlujos}',
+                store: '{stFlujo}',
                 disabled: '{!cbSistemas.selection}',
                 selection: '{flujoSeleccionado}'
             },

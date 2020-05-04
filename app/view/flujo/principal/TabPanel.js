@@ -26,7 +26,7 @@ Ext.define('wkf.view.flujo.principal.TabPanel',{
                 {
                     xtype: 'flujo-principal-grillaetapas',
                     bind: {
-                        store: '{stEtapas}'
+                        store: '{stEtapa}'
                     },
                     flex: 1
                 }
@@ -60,8 +60,9 @@ Ext.define('wkf.view.flujo.principal.TabPanel',{
             items: [
                 {
                     xtype: 'flujo-principal-grillaacciones',
+                    reference: 'gpAccion',
                     bind: {
-                        store: '{stAcciones}'
+                        store: '{stAccion}'
                     },
                     flex: 1
                 }

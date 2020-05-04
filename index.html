@@ -12,7 +12,7 @@
         var DEBUG = false;
         // Se requiere cuando se usa sencha cmd
         var GLOBAL_HOST = 'https://app.compustrom.com/d';
-        if( ! (/^localhost[:]*/.test( location.host ))){
+        if( ! (/^localhost[:]*/.test( location.host )) && location.port != 1841 ){
             // Framework compustrom
             GLOBAL_HOST = '..';
         }

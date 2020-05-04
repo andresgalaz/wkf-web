@@ -8,165 +8,121 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
     ],
 
     stores: {
-        stAcceso: {
-            fields: ['idAcceso', 'titulo'],
-
-            proxy: {
-                type : 'jsoncall',
-                extraParams : {            
-                    prm_funcion : 'xformgen4.consultaTpAccesos',
-                }
-            },
-
-            autoLoad: true
-        },
-
-        stAcciones: {
+        stAccion: {
             model: 'wkf.model.Accion',
-            sorters: [
-                {
-                    property: 'orden',
-                    direction: 'ASC'
-                }
-            ],
+            sorters: [{ property: 'nOrden', direction: 'ASC' }],
             autoLoad: false
         },
 
         stAccionFuncion: {
             fields: [
-                { name: 'idAccion', type: 'int' },
-                { name: 'sec', type: 'int' },
-                { name: 'funcion', type: 'auto' },
-                { name: 'tpEjecucion', type: 'auto' },
-                { name: 'alias', type: 'auto' },
+                { name: 'pAccion', type: 'int' },
+                { name: 'pSecuencia', type: 'int' },
+                { name: 'cFuncion', type: 'auto' },
+                { name: 'cTpEjecucion', type: 'auto' },
+                { name: 'cAlias', type: 'auto' },
                 { name: 'nuevo', type: 'boolean', defaultValue: false }
             ],
-        
             proxy: {
                 type : 'jsoncall',
                 extraParams : {            
-                    prm_funcion : 'xformgen4.consultaAccionFunciones',
+                    prm_funcion : 'jStore.wkf.admin.accion.ConsultaFuncion',
                 }
             },
-
-            sorters: [
-                {
-                    property: 'sec',
-                    direction: 'ASC'
-                }
-            ],
-
+            sorters: [ { property: 'pSecuencia', direction: 'ASC' } ],
             autoLoad: false
         },
 
-        stEtapas: {
+        stEtapa: {
             model: 'wkf.model.Etapa',
-
             sorters: [
-                {
-                    property: 'orden',
-                    direction: 'ASC'
-                },
-                {
-                    property: 'titulo',
-                    direction: 'ASC'
-                },
+                { property: 'orden', direction: 'ASC' },
+                { property: 'cTitulo', direction: 'ASC' }
             ],
-
             autoLoad: false
         },
 
         stEtapaFuncion: {
-            // model: 'wkf.model.EtapaFuncion',
-            // fields: ['idEtapa', 'sec', 'funcion', 'tpEjecucion', 'alias', 'tpFuncion'],
             fields: [
-                { name: 'idEtapa', type: 'int' },
-                { name: 'sec', type: 'int' },
-                { name: 'funcion', type: 'auto' },
-                { name: 'tpEjecucion', type: 'auto' },
-                { name: 'alias', type: 'auto' },
-                { name: 'tpFuncion', type: 'auto' },
+                { name: 'pEtapa', type: 'int' },
+                { name: 'pSecuencia', type: 'int' },
+                { name: 'cFuncion', type: 'auto' },
+                { name: 'cAlias', type: 'auto' },
+                { name: 'cTpFuncion', type: 'auto' },
+                { name: 'cTpEjecucion', type: 'auto' },
                 { name: 'nuevo', type: 'boolean', defaultValue: false }
             ],
-
             proxy: {
                 type : 'jsoncall',
                 extraParams : {            
-                    prm_funcion : 'xformgen4.consultaEtapaFunciones',
+                    prm_funcion : 'jStore.wkf.admin.etapa.ConsultaFuncion',
                 }
             },
-
-            sorters: [
-                {
-                    property: 'sec',
-                    direction: 'ASC'
-                }
-            ],
-
+            sorters: [ { property: 'pSecuencia', direction: 'ASC' } ],
             autoLoad: false
         },
 
-        stFlujos: {
-            idProperty: 'idFlujo',
-            fields: ['idFlujo','nombre','titulo','url','duracion'],
-            
+        stFlujo: {
+            idProperty: 'pFlujo',
+            fields: ['pFlujo','cNombre','cTitulo','cURL','nDuracionLimite'],          
             proxy: {
                 type : 'jsoncall',
-                extraParams : {            
-                    prm_funcion : 'xformgen4.consultaFlujo',
+                extraParams : {
+                    prm_funcion : 'jStore.wkf.admin.flujo.Consulta',
                 }
             },
-
-            sorters: [
-                {
-                    property: 'titulo',
-                    direction: 'ASC'
-                }
-            ],
-
+            sorters: [ { property: 'cTitulo', direction: 'ASC' } ],
             autoLoad: false
         },
         
         stRol: {
-            idProperty: 'id',
-            fields: ['idRol','nombre','titulo'],
-            
+            idProperty: 'pRol',
+            fields: ['pRol', 'cRol', 'cRolTitulo', 'fSistema'],
+//            fields: [
+//                { name: 'pRol', type: 'int' },
+//                { name: 'cRol', type: 'string' },
+//                { name: 'cRolTitulo', type: 'string' },
+//                { name: 'fSistema', type: 'int' }
+//            ],
             proxy: {
-                type : 'jsoncall',
+                url : GLOBAL_HOST+'/do/wkfListaRol',
+                method : 'POST',
+                type : 'ajax',
+                cors: true, withCredentials: true, useDefaultXhrHeader: false,
+                reader : {
+                    type : 'json',
+                    rootProperty : 'response',
+                    successProperty : 'success'
+                },
                 extraParams : {            
-                    prm_funcion : 'xformgen4.consultaRol',
                     prm_sistema : 4 // TODO: Modificar 
                 }
             },
-
-            sorters: [
-                {
-                    property: 'titulo',
-                    direction: 'ASC'
-                }
-            ],
-
+            sorters: [{ property: 'cRol', direction: 'ASC' }],
             autoLoad: true
-        },
+        },        
 
-        stSistemas: {
-            idProperty: 'idSistema',
-            fields: ['idSistema','nombre','titulo'],
-            
+        stSistema: {
+            idProperty: 'pSistema',
+            fields: ['pSistema','cNombre','cTitulo'],            
             proxy: {
                 type : 'jsoncall',
                 extraParams : {            
-                    prm_funcion : 'xformgen4.consultaSistema',
+                    prm_funcion : 'paGlobal.sistema',
                 }
             },
+            sorters: [{ property: 'cTitulo', direction: 'ASC' }],
+            autoLoad: true
+        },
 
-            sorters: [
-                {
-                    property: 'titulo',
-                    direction: 'ASC'
+        stTpAcceso: {
+            fields: ['pTpAcceso', 'cDescripcion'],
+            proxy: {
+                type : 'jsoncall',
+                extraParams : {            
+                    prm_funcion : 'paGlobal.tpAcceso',
                 }
-            ],
-
+            },
             autoLoad: true
         },
 
@@ -176,7 +132,6 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
                 { tpEjecucion: 'BSH' },
                 { tpEjecucion: 'SQL' },
             ],
-
             autoLoad: true
         },
 

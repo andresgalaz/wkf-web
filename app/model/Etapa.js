@@ -1,16 +1,12 @@
 Ext.define('wkf.model.Etapa', {
     extend: 'Ext.data.Model',
-
-    requires: [
-        'wkf.proxy.JsonCall'
-    ],
-
-    idProperty: 'idEtapa',
-
+    requires: [ 'wkf.proxy.JsonCall' ],
+    idProperty: 'pEtapa',
     fields: [
-        { name: 'idEtapa', type: 'int' },
-        { name: 'titulo', type: 'auto' },
-        { name: 'nombre', type: 'auto' },
+        { name: 'pEtapa', type: 'int' },
+        { name: 'cTitulo', type: 'auto' },
+        { name: 'cNombre', type: 'auto' },
+        { name: 'fFlujo', type: 'int' },
         { name: 'tpEtapa', type: 'auto', convert: function(val) {
             switch (val) {
                 case 'I':
@@ -26,20 +22,19 @@ Ext.define('wkf.model.Etapa', {
                     return 'Sin determinar';
             }
         }},
-        { name: 'duracion', type: 'number' },
-        { name: 'rol', type: 'auto' },
-        { name: 'idRol', type: 'int' },
-        { name: 'btarea', type: 'boolean' },
-        { name: 'bautorizacion', type: 'boolean' },
-        { name: 'url', type: 'auto' },
+        { name: 'nDuracion', type: 'number' },
+        { name: 'cRol', type: 'auto' },
+        { name: 'fRolFuncion', type: 'int' },
+        { name: 'bTarea', type: 'boolean' },
+        { name: 'bAutorizacion', type: 'boolean' },
+        { name: 'cURL', type: 'auto' },
         { name: 'orden', type: 'int' },  //TODO: Mejorar
     ],
-
     proxy: {
         type : 'jsoncall',
         url : GLOBAL_HOST + '/do/jsonCall',
         extraParams : {            
-            prm_funcion : 'xformgen4.consultaEtapa',
+            prm_funcion : 'jStore.wkf.admin.etapa.Consulta',
         }
     },
 });

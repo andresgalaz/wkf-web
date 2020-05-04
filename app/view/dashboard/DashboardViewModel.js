@@ -7,15 +7,13 @@ Ext.define('wkf.view.dashboard.DashboardViewModel', {
 
     stores: {
         stTareasPendientes: {
-            fields: ['flujo','etapa','idEtapa', 'cant'],
-            
+            fields: ['cFlujoTitulo','cEtapaTitulo','fEtapa', 'nCount'],
             proxy: {
                 type : 'jsoncall',
                 extraParams : {            
-                    prm_funcion : 'xformgen4.consultaTareasPendientes',
+                    prm_funcion : 'jStore.wkf.admin.ConsultaTareasPendientes',
                 }
             },
-
             autoLoad: true
         },
 
@@ -28,7 +26,6 @@ Ext.define('wkf.view.dashboard.DashboardViewModel', {
                 { usr: 'Laura', vencidas: 10, normal: 29, nuevas: 0 },
                 { usr: 'Cecilia', vencidas: 2, normal: 13, nuevas: 3 }
             ]
-
         }
     }
 });

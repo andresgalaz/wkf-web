@@ -1,19 +1,12 @@
 Ext.define('wkf.view.flujo.detalle.Detalle',{
     extend: 'Ext.container.Container',
     xtype: 'flujo-detalle',
-
     requires: [
         'wkf.view.flujo.detalle.Flujo',
         'wkf.view.flujo.detalle.Etapa',
         'wkf.view.flujo.detalle.Accion',
     ],
-
-    layout: {
-        type: 'card',
-        anchor: '100%'
-    },
-
-    // html: 'Detalle',
+    layout: { type: 'card', anchor: '100%' },
 
     items: [
         {

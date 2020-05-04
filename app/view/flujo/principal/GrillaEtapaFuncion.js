@@ -1,20 +1,11 @@
 Ext.define('wkf.view.flujo.principal.GrillaEtapaFuncion',{
     extend: 'Ext.grid.Panel',
     xtype: 'flujo-principal-grillaetapa-funcion',
-
-    requires: [
-        'Ext.grid.plugin.RowEditing'
-    ],
-
+    requires: ['Ext.grid.plugin.RowEditing'],
     emptyText: 'No existen funciones de I/O/L',
     scrollable: true,
-
     selModel: 'rowmodel',
-    plugins: {
-        rowediting: {
-            clicksToEdit: 1
-        }
-    },
+    plugins: {rowediting: { clicksToEdit: 1 }},
 
     tbar: [
         '->',
@@ -27,7 +18,7 @@ Ext.define('wkf.view.flujo.principal.GrillaEtapaFuncion',{
         {
             xtype: 'numbercolumn',
             text: 'Secuencia',
-            dataIndex: 'sec',
+            dataIndex: 'pSecuencia',
             format: '0',
             width: 75,
             editor: {
@@ -35,19 +26,17 @@ Ext.define('wkf.view.flujo.principal.GrillaEtapaFuncion',{
                 minValue: 1,
                 allowBlank: false
             }
-        },
-        {
+        }, {
             text: 'Funcion',
-            dataIndex: 'funcion',
+            dataIndex: 'cFuncion',
             flex: 1,
             editor: {
                 xtype: 'textfield',
                 allowBlank: false
             }
-        },
-        {
+        }, {
             text: 'Tipo Ejecucion',
-            dataIndex: 'tpEjecucion',
+            dataIndex: 'cTpEjecucion',
             width: 150,
             editor: {
                 xtype: 'combobox',
@@ -57,14 +46,11 @@ Ext.define('wkf.view.flujo.principal.GrillaEtapaFuncion',{
                 allowBlank: false,
                 displayField: 'tpEjecucion',
                 valueField: 'tpEjecucion',
-                bind: {
-                    store: '{stTpEjecucion}'
-                }
+                bind: { store: '{stTpEjecucion}' }
             }
-        },
-        {
+        }, {
             text: 'Tipo Funcion',
-            dataIndex: 'tpFuncion',
+            dataIndex: 'cTpFuncion',
             width: 150,
             editor: {
                 xtype: 'combobox',
@@ -74,22 +60,9 @@ Ext.define('wkf.view.flujo.principal.GrillaEtapaFuncion',{
                 allowBlank: false,
                 displayField: 'titulo',
                 valueField: 'tpFuncion',
-                bind: {
-                    store: '{stTpFuncion}'
-                },
-                // renderer: function(value, metaData, record) {
-                //     switch (value) {
-                //         case 'I':
-                //             return "In";
-                //         case 'O':
-                //             return "Out";
-                //         case 'L':
-                //             return "Lectura";
-                //     }
-                // }
+                bind: { store: '{stTpFuncion}' }
             }
-        },
-        {
+        }, {
             xtype: 'actioncolumn',
             width: 70,
             items: [

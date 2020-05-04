@@ -20,23 +20,23 @@ Ext.define('wkf.view.flujo.principal.GrillaAcciones',{
         {
             xtype: 'numbercolumn',
             text: 'Orden',
-            dataIndex: 'orden',
+            dataIndex: 'nOrden',
             format: '0',
             width: 50
         },
         {
             text: 'Accion',
-            dataIndex: 'titulo',
+            dataIndex: 'cTitulo',
             flex: 2
         },
         {
             text: 'Origen',
-            dataIndex: 'etapaOrigen',
+            dataIndex: 'cEtapaOrigen',
             flex: 1
         },
         {
             text: 'Destino',
-            dataIndex: 'etapaDestino',
+            dataIndex: 'cEtapaDestino',
             flex: 1
         },
         {

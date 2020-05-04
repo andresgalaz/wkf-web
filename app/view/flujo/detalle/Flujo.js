@@ -1,60 +1,40 @@
 Ext.define('wkf.view.flujo.detalle.Flujo',{
     extend: 'wkf.view.flujo.detalle.FormBase',
     xtype: 'detalle-flujo',
-
     title: 'Detalle Flujo',
-
     bbar: [
         '->',
         {
             text: 'Cancelar'
-        },
-        {
+        }, {
             text: 'Grabar'
         }
     ],
-
-    items: [
-        {
+    items: [ {
             xtype: 'hidden',
-            name: 'idFlujo',
-            bind: {
-                value: '{flujoSeleccionado.idFlujo}'
-            }
-        },
-        {
+            name: 'pFlujo',
+            bind: { value: '{flujoSeleccionado.pFlujo}' }
+        }, {
             xtype: 'textfield',
             fieldLabel: 'Título',
-            name: 'titulo',  
+            name: 'cTitulo',  
             allowBlank: false,
-            bind: {
-                value: '{flujoSeleccionado.titulo}'
-            }
-        },
-        {
+            bind: { value: '{flujoSeleccionado.cTitulo}' }
+        }, {
             xtype: 'textfield',
             fieldLabel: 'Nombre',
-            name: 'nombre',  
+            name: 'cNombre',  
             allowBlank: false,
-            bind: {
-                value: '{flujoSeleccionado.nombre}'
-            }
-        },
-        {
+            bind: { value: '{flujoSeleccionado.cNombre}' }
+        }, {
             xtype: 'textfield',
-            fieldLabel: 'Url',
-            name: 'url',
-            bind: {
-                value: '{flujoSeleccionado.url}'
-            }
-        },
-        {
+            fieldLabel: 'URL',
+            name: 'cURL',
+            bind: { value: '{flujoSeleccionado.cURL}' }
+        }, {
             xtype: 'numberfield',
             fieldLabel: 'Duración Límite',
-            name: 'duracion',
-            bind: {
-                value: '{flujoSeleccionado.duracion}'
-            }
-        },
-    ]
+            name: 'nDuracionLimite',
+            bind: { value: '{flujoSeleccionado.nDuracionLimite}' }
+        }]
 });

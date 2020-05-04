@@ -5,18 +5,15 @@ Ext.define('wkf.view.dashboard.DashboardViewController', {
     onGraficoTareasPendientesItemClick: function(chart, item, event, eOpts) {
         var me = this,
             refs = me.getReferences(),
-            idEtapa = item.record.get('idEtapa'),
-            titulo = item.record.get('etapa');
+            cTitulo = item.record.get('cEtapa');
 
         refs.gfTareasPendientesUsr.setCaptions({
-            title: {
-                text: titulo
-            }
+            title: { text: cTitulo }
         });
     },
 
     onGraficoTareasPendientesTooltip: function(tooltip, record, item) {
-        tooltip.setHtml(record.get('etapa') + ': ' + record.get('cant') + (record.get('cant') > 1 ? ' tareas' : ' tarea'));
+        tooltip.setHtml(record.get('cEtapa') + ': ' + record.get('cant') + (record.get('cant') > 1 ? ' tareas' : ' tarea'));
     }
 
 });

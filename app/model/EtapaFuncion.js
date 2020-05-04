@@ -1,24 +1,19 @@
 Ext.define('wkf.model.EtapaFuncion', {
     extend: 'Ext.data.Model',
-
-    requires: [
-        'wkf.proxy.JsonCall'
-    ],
-
+    requires: [ 'wkf.proxy.JsonCall' ],
     fields: [
-        { name: 'idEtapa', type: 'int' },
-        { name: 'sec', type: 'int' },
-        { name: 'funcion', type: 'auto' },
-        { name: 'tpEjecucion', type: 'auto' },
-        { name: 'alias', type: 'auto' },
-        { name: 'tpFuncion', type: 'auto' },
+        { name: 'pEtapa', type: 'int' },
+        { name: 'pSecuencia', type: 'int' },
+        { name: 'cFuncion', type: 'auto' },
+        { name: 'cAlias', type: 'auto' },
+        { name: 'cTpFuncion', type: 'auto' },
+        { name: 'cTpEjecucion', type: 'auto' },
         { name: 'nuevo', type: 'boolean', defaultValue: false }
     ],
-        
     proxy: {
         type : 'jsoncall',
         extraParams : {            
-            prm_funcion : 'xformgen4.consultaEtapaFunciones',
+            prm_funcion : 'jStore.wkf.admin.etapa.ConsultaFuncion',
         }
     },
 });

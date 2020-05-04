@@ -1,12 +1,9 @@
 Ext.define('wkf.view.flujo.principal.GrillaEtapas',{
     extend: 'Ext.grid.Panel',
     xtype: 'flujo-principal-grillaetapas',
-
     selModel: 'rowmodel',
-
     emptyText: 'No existen etapas ingresadas',
     scrollable: true,
-
     tbar: [
         '->',
         {
@@ -14,51 +11,39 @@ Ext.define('wkf.view.flujo.principal.GrillaEtapas',{
             handler: 'onGrillaEtapaNueva'
         }
     ],
-
-    columns: [
-        {
+    columns: [ {
             text: 'Titulo',
-            dataIndex: 'titulo',
+            dataIndex: 'cTitulo',
             flex: 2
-        },
-        {
+        }, {
             text: 'Nombre',
-            dataIndex: 'nombre',
+            dataIndex: 'cNombre',
             flex: 1
-        },
-        {
+        }, {
             text: 'Tipo',
             dataIndex: 'tpEtapa',
             flex: 1
-        },
-        {
+        }, {
             xtype: 'numbercolumn',
             text: 'Duracion',
-            dataIndex: 'duracion'
-        },
-        {
+            dataIndex: 'nDuracion'
+        }, {
             text: 'Rol Asignado',
-            dataIndex: 'rol',
+            dataIndex: 'cRol',
             flex: 1
-        },
-        {
+        }, {
             xtype: 'actioncolumn',
             width: 70,
-            items: [
-                {
+            items: [ {
                     iconCls: 'x-fa fa-info-circle',
                     margin: '0 5 0 0',
                     handler: 'onGrillaEtapaVerDetalle',
                     tooltip: 'Ver detalles etapa',
-                },
-                {
+                }, {
                     iconCls: 'x-fa fa-minus-circle',
                     margin: '0 5 0 0',
                     handler: 'onGrillaEtapaEliminar',
                     tooltip: 'Eliminar etapa',
-                }
-            ]
-        }
-
-    ]
+                } ]
+        } ]
 });

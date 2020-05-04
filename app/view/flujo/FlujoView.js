@@ -1,16 +1,12 @@
-
 Ext.define('wkf.view.flujo.FlujoView',{
     extend: 'Ext.panel.Panel',
     xtype: 'wkf-flujos',
-
     requires: [
         'wkf.view.flujo.FlujoViewController',
         'wkf.view.flujo.FlujoViewModel',
-
         'wkf.view.flujo.principal.Principal',
         'wkf.view.flujo.detalle.Detalle'
     ],
-
     controller: 'flujo-flujoview',
     viewModel: {
         type: 'flujo-flujoview'

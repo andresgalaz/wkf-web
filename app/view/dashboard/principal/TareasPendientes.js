@@ -40,15 +40,13 @@ Ext.define('wkf.view.dashboard.principal.TareasPendientes',{
                 docked: 'right'
             },
             interactions: ['rotate'],
-            bind: {
-                store: '{stTareasPendientes}'
-            },
+            bind: { store: '{stTareasPendientes}' },
             series: [
                 {
                     type: 'pie',
-                    angleField: 'cant',
+                    angleField: 'nCount',
                     label: {
-                        field: 'etapa',
+                        field: 'cEtapaTitulo',
                         calloutLine: {
                             length: 60,
                             width: 3

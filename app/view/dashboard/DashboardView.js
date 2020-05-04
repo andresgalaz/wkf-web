@@ -7,7 +7,6 @@ Ext.define('wkf.view.dashboard.DashboardView',{
     requires: [
         'wkf.view.dashboard.DashboardViewController',
         'wkf.view.dashboard.DashboardViewModel',
-
         'wkf.view.dashboard.principal.TabPanel',
     ],
 
