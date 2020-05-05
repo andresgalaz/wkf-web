@@ -245,9 +245,27 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         
     },
 
-    onGrillaAccionesEliminar: function() {
-        console.log('[onGrillaAccionesEliminar]');
-    },
+    onGrillaAccionesEliminar: function(grid, rowIndex, colIndex) {
+        var me = this,
+	        rec = grid.getStore().getAt(rowIndex),
+	        pAccion = rec.get('pAccion');
+	        
+        Ext.Msg.confirm('Acciones', '¿Está seguro de eliminar?',
+            function (choice) {
+                if (choice !== 'yes') 
+                	return;
+                wkf.Helper.jsonCall({
+                	params:{
+                		prm_funcion: 'jStore.wkf.admin.accion.Elimina',
+                		prm_pAccion: pAccion
+                	},
+                	callback: function(response, opts){
+                		me.onFrmAccionVolver();
+                	}
+                });
+            }
+        );
+   	},
 
     onGrillaAccionesVerDetalle: function(grid, rowIndex, colIndex) {
         var me = this,
@@ -300,8 +318,29 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         pluginEdit.startEdit(rec);
     },
 
-    onGrillaAccionFuncionEliminar: function() {
-        console.log('[onGrillaAccionFuncionEliminar]');
+    onGrillaAccionFuncionEliminar: function(grid, rowIndex, colIndex) {
+        var me = this,
+        rec = grid.getStore().getAt(rowIndex),
+        pAccion = rec.get('pAccion')
+        pSecuencia = rec.get('pSecuencia')
+        ;
+
+	    Ext.Msg.confirm('Funcion en Acciones', '¿Está seguro de eliminar?',
+	        function (choice) {
+	            if (choice !== 'yes') 
+	            	return;
+	            wkf.Helper.jsonCall({
+	            	params:{
+	            		prm_funcion: 'jStore.wkf.admin.accion.EliminaFuncion',
+	            		prm_pAccion: pAccion,
+	            		prm_pSecuencia: pSecuencia
+	            	},
+	            	callback: function(response, opts){
+	            		me.onFrmAccionVolver();
+	            	}
+	            });
+	        }
+	    );
     },
 
     onGrillaAccionFuncionNuevaCancel: function(editor, context, eOpts) {
@@ -325,9 +364,27 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         console.log('[onGrillaAccionFuncionNuevaGrabar]', context);
     },
 
-    onGrillaEtapaEliminar: function() {
-        console.log('[onGrillaEtapaEliminar]');
-    },
+    onGrillaEtapaEliminar: function(grid, rowIndex, colIndex) {
+        var me = this,
+        rec = grid.getStore().getAt(rowIndex),
+        pEtapa = rec.get('pEtapa');
+        
+	    Ext.Msg.confirm('Etapas', '¿Está seguro de eliminar?',
+	        function (choice) {
+	            if (choice !== 'yes') 
+	            	return;
+	            wkf.Helper.jsonCall({
+	            	params:{
+	            		prm_funcion: 'jStore.wkf.admin.etapa.Elimina',
+	            		prm_pEtapa: pEtapa
+	            	},
+	            	callback: function(response, opts){
+	            		me.onFrmEtapaVolver();
+	            	}
+	            });
+	        }
+	    );
+	},
 
     onGrillaEtapaNueva: function() {
         var me = this,
@@ -408,6 +465,31 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         pluginEdit.startEdit(rec);
     },
 
+    onGrillaEtapaFuncionEliminar: function(grid, rowIndex, colIndex) {
+        var me = this,
+        rec = grid.getStore().getAt(rowIndex),
+        pEtapa = rec.get('pEtapa')
+        pSecuencia = rec.get('pSecuencia')
+        ;
+
+	    Ext.Msg.confirm('Funcion en Acciones', '¿Está seguro de eliminar?',
+	        function (choice) {
+	            if (choice !== 'yes') 
+	            	return;
+	            wkf.Helper.jsonCall({
+	            	params:{
+	            		prm_funcion: 'jStore.wkf.admin.etapa.EliminaFuncion',
+	            		prm_pEtapa: pEtapa,
+	            		prm_pSecuencia: pSecuencia
+	            	},
+	            	callback: function(response, opts){
+	            		me.onFrmEtapaVolver();
+	            	}
+	            });
+	        }
+	    );
+    },
+    
     onGrillaEtapaFuncionNuevaCancel: function(editor, context, eOpts) {
         var me = this,
             refs = me.getReferences(),
