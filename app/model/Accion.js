@@ -25,8 +25,10 @@ Ext.define('wkf.model.Accion', {
         type : 'jsoncall',
         url : GLOBAL_HOST + '/do/jsonCall',
         extraParams : {            
-            prm_funcion : 'jStore.wkf.admin.accion.Consulta',
-        },
+            prm_funcion : 'jStore.wkf.admin.accion.Consulta'
+        }
+		/*
+		,
         reader:{
         	type:'json',
         	transform:{
@@ -37,6 +39,7 @@ Ext.define('wkf.model.Accion', {
         			return data;
         		}	
         	}
-        }
+        } 
+        */
     }
 });
