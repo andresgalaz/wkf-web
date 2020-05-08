@@ -5,6 +5,8 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
         'wkf.model.Etapa',
         'wkf.model.EtapaFuncion',
         'wkf.model.Accion',
+        'wkf.model.Flujo',
+        'wkf.model.Sistema'
     ],
 
     stores: {
@@ -63,14 +65,7 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
         },
 
         stFlujo: {
-            idProperty: 'pFlujo',
-            fields: ['pFlujo','cNombre','cTitulo','cURL','nDuracionLimite'],          
-            proxy: {
-                type : 'jsoncall',
-                extraParams : {
-                    prm_funcion : 'jStore.wkf.admin.flujo.Consulta',
-                }
-            },
+            model: 'wkf.model.Flujo',
             sorters: [ { property: 'cTitulo', direction: 'ASC' } ],
             autoLoad: false
         },
@@ -78,12 +73,6 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
         stRol: {
             idProperty: 'pRol',
             fields: ['pRol', 'cRol', 'cRolTitulo', 'fSistema'],
-//            fields: [
-//                { name: 'pRol', type: 'int' },
-//                { name: 'cRol', type: 'string' },
-//                { name: 'cRolTitulo', type: 'string' },
-//                { name: 'fSistema', type: 'int' }
-//            ],
             proxy: {
                 url : GLOBAL_HOST+'/do/wkfListaRol',
                 method : 'POST',
@@ -103,14 +92,7 @@ Ext.define('wkf.view.flujo.FlujoViewModel', {
         },        
 
         stSistema: {
-            idProperty: 'pSistema',
-            fields: ['pSistema','cNombre','cTitulo'],            
-            proxy: {
-                type : 'jsoncall',
-                extraParams : {            
-                    prm_funcion : 'paGlobal.sistema',
-                }
-            },
+            model: 'wkf.model.Sistema',
             sorters: [{ property: 'cTitulo', direction: 'ASC' }],
             autoLoad: true
         },

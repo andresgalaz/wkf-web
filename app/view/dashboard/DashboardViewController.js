@@ -13,7 +13,7 @@ Ext.define('wkf.view.dashboard.DashboardViewController', {
     },
 
     onGraficoTareasPendientesTooltip: function(tooltip, record, item) {
-        tooltip.setHtml(record.get('cEtapa') + ': ' + record.get('cant') + (record.get('cant') > 1 ? ' tareas' : ' tarea'));
+        tooltip.setHtml(record.get('cEtapa') + ': ' + record.get('nCount') + (record.get('nCount') > 1 ? ' tareas' : ' tarea'));
     }
 
 });

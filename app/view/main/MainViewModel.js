@@ -25,7 +25,6 @@ Ext.define('wkf.view.main.MainViewModel', {
             },
 
             proxy: {
-                // url : GLOBAL_HOST+'/do/vyl/bsh/main/menuGet.bsh',
                 url : GLOBAL_HOST+'/do/menuFull',
                 cors: true, withCredentials: true, useDefaultXhrHeader: false,
                 method : 'GET', 

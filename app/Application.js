@@ -4,6 +4,8 @@
 Ext.define('wkf.Application', {
     extend: 'Ext.app.Application',
     name: 'wkf',
+
+    // models: ['Sistema'],
     
     onAppUpdate: function () {
         // onAppUpdate is run by the microloader if the browser cached version

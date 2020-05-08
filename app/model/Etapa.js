@@ -1,6 +1,7 @@
 Ext.define('wkf.model.Etapa', {
     extend: 'Ext.data.Model',
-    requires: [ 'wkf.proxy.JsonCall' ],
+    requires: ['wkf.proxy.JsonCall'],
+
     idProperty: 'pEtapa',
     fields: [
         { name: 'pEtapa', type: 'int' },
@@ -30,8 +31,9 @@ Ext.define('wkf.model.Etapa', {
         { name: 'cURL', type: 'auto' },
         { name: 'orden', type: 'int' },  //TODO: Mejorar
     ],
+    
     proxy: {
-        type : 'jsoncall',
+        type: 'jsoncall',
         url : GLOBAL_HOST + '/do/jsonCall',
         extraParams : {            
             prm_funcion : 'jStore.wkf.admin.etapa.Consulta',

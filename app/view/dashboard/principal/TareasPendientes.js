@@ -34,17 +34,17 @@ Ext.define('wkf.view.dashboard.principal.TareasPendientes',{
             // theme: 'default-gradients',
             width: '100%',
             height: 500,
-            insetPadding: 40,
-            innerPadding: 20,
+            innerPadding: 60,
             legend: {
                 docked: 'right'
             },
-            interactions: ['rotate'],
+            interactions: ['rotate', 'itemhighlight'],
             bind: { store: '{stTareasPendientes}' },
             series: [
                 {
                     type: 'pie',
                     angleField: 'nCount',
+                    donut: 50,
                     label: {
                         field: 'cEtapaTitulo',
                         calloutLine: {
@@ -104,8 +104,8 @@ Ext.define('wkf.view.dashboard.principal.TareasPendientes',{
                             type: 'bar',
                             axis: 'bottom',
                             title: [ 'Vencidas', 'Por vencer', 'Recientes'],
-                            xField: 'usr',
-                            yField: [ 'vencidas', 'normal', 'nuevas' ],
+                            xField: 'cNombreUsuario',
+                            yField: [ 'nVencidas', 'nNormal', 'nNuevas' ],
                             stacked: true,
                             marker: {
                                 type: 'diamond'

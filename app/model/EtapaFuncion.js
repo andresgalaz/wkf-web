@@ -1,6 +1,7 @@
 Ext.define('wkf.model.EtapaFuncion', {
     extend: 'Ext.data.Model',
-    requires: [ 'wkf.proxy.JsonCall' ],
+    requires: ['wkf.proxy.JsonCall'],
+
     fields: [
         { name: 'pEtapa', type: 'int' },
         { name: 'pSecuencia', type: 'int' },
@@ -11,7 +12,8 @@ Ext.define('wkf.model.EtapaFuncion', {
         { name: 'nuevo', type: 'boolean', defaultValue: false }
     ],
     proxy: {
-        type : 'jsoncall',
+        type: 'jsoncall',
+        url : GLOBAL_HOST + '/do/jsonCall',
         extraParams : {            
             prm_funcion : 'jStore.wkf.admin.etapa.ConsultaFuncion',
         }

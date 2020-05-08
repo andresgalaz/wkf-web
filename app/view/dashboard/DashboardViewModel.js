@@ -7,25 +7,26 @@ Ext.define('wkf.view.dashboard.DashboardViewModel', {
 
     stores: {
         stTareasPendientes: {
-            fields: ['cFlujoTitulo','cEtapaTitulo','fEtapa', 'nCount'],
+            fields: ['cFlujoTitulo','cEtapaTitulo','cEtapa', 'nCount'],
             proxy: {
                 type : 'jsoncall',
                 extraParams : {            
-                    prm_funcion : 'jStore.wkf.admin.ConsultaTareasPendientes',
+                    prm_funcion : 'jStore.wkf.dashboard.ConsultaTotalesPendientes',
                 }
             },
             autoLoad: true
         },
 
         stTareasPendientesUsr: {
-            fields: ['usr', 'vencidas', 'normal', 'nuevas'],
-            data: [
-                { usr: 'Juan', vencidas: 8, normal: 12, nuevas: 18 },
-                { usr: 'Andres', vencidas: 5, normal: 4, nuevas: 9 },
-                { usr: 'Pablo', vencidas: 9, normal: 3, nuevas: 1 },
-                { usr: 'Laura', vencidas: 10, normal: 29, nuevas: 0 },
-                { usr: 'Cecilia', vencidas: 2, normal: 13, nuevas: 3 }
-            ]
+            fields: ['pUsuario', 'cUsuarioNombre', 'nVencidas', 'nNormal', 'nNuevas'],
+            proxy: {
+                type : 'jsoncall',
+                extraParams : {            
+                    prm_funcion : 'jStore.wkf.dashboard.ConsultaTotalesPorUsuario',
+                    prm_cFlujo : 'VENTA_CIERRE' //TODO: Modificar 
+                }
+            },
+            autoLoad: true
         }
     }
 });

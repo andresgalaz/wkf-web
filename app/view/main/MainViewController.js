@@ -24,18 +24,18 @@ Ext.define('wkf.view.main.MainViewController', {
     },
 
     doLogin: function () {
-        var me = this,
-            refs = me.getReferences(),
-            pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-                xtype: 'login',
-                reference: 'wndLogin',
-                listeners: {
-                    close: 'onLoginOk',
-                }
-            });
+        // var me = this,
+        //     refs = me.getReferences(),
+        //     pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
+        //         xtype: 'login',
+        //         reference: 'wndLogin',
+        //         listeners: {
+        //             close: 'onLoginOk',
+        //         }
+        //     });
 
-        console.log('[doLogin] login', pnLogin);
-        pnLogin.show();
+        // console.log('[doLogin] login', pnLogin);
+        // pnLogin.show();
         // this.redirectTo('login');
     },
 
@@ -120,14 +120,14 @@ Ext.define('wkf.view.main.MainViewController', {
 
     onLogout: function () {
         var me = this,
-            refs = me.getReferences(),
-            pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-                xtype: 'login',
-                reference: 'wndLogin',
-                listeners: {
-                    close: 'onLoginOk',
-                }
-            });
+            refs = me.getReferences();
+            // pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
+            //     xtype: 'login',
+            //     reference: 'wndLogin',
+            //     listeners: {
+            //         close: 'onLoginOk',
+            //     }
+            // });
 
         Ext.Ajax.request({
             url: GLOBAL_HOST+'/do/salir',
@@ -135,8 +135,8 @@ Ext.define('wkf.view.main.MainViewController', {
             method: 'POST',
             success: function (response, opts) {
                 if (response.status == 200) {
-                    console.log('[onLogout] login', pnLogin);
-                    pnLogin.show();
+                    // console.log('[onLogout] login', pnLogin);
+                    // pnLogin.show();
 
                 } else
                     console.error(response.responseText);
@@ -195,7 +195,7 @@ Ext.define('wkf.view.main.MainViewController', {
                 navigationList.setMicro(false);
 
                 refs.logo.removeCls('main-logo-micro');
-                refs.logo.addCls('ha-logo');
+                refs.logo.addCls('main-logo');
 
                 me.filterNodes();
             }
@@ -225,7 +225,7 @@ Ext.define('wkf.view.main.MainViewController', {
                     single: true,
                 });
 
-                refs.logo.removeCls('ha-logo');
+                refs.logo.removeCls('main-logo');
                 refs.logo.addCls('main-logo-micro');
             }
         }

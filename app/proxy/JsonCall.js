@@ -1,16 +1,27 @@
 Ext.define('wkf.proxy.JsonCall', {
     extend: 'Ext.data.proxy.Ajax',
     alias: 'proxy.jsoncall',
-
+    
+    method: 'POST',
     url : GLOBAL_HOST+'/do/jsonCall',
+    // url: 'https://app.compustrom.com/d/do/jsonCall',
     cors: true, withCredentials: true, useDefaultXhrHeader: false,
-    type : 'ajax',
+    
     reader : {
         type : 'json',
         rootProperty : 'records',
         totalProperty : 'count',
-        successProperty: 'success'
+        successProperty: 'success',
+        // transform: {
+        //     fn:function(data){
+        //         // Convierte la información cJsonData de String a JSON
+        //         for(i = 0; i < data.records.length; i++)
+        //             data.records[i].cJsonData = Ext.decode(data.records[i].cJsonData);
+        //         return data;
+        //     }	
+        // }
     },
+    
     listeners: {
         exception: function(read, res, err, eOpts) {
             var me = this;
