@@ -10,11 +10,13 @@
     <script>
         // Indica si activa o no if (DEBUG) console.log
         var DEBUG = false;
-        // Se requiere cuando se usa sencha cmd
-        var GLOBAL_HOST = 'https://app.compustrom.com/d';
+        // Se requiere cuando se utiliza el sencha web server para correr la aplicacion
+        var GLOBAL_HOST = 'http://192.168.1.106:8080/compustrom';
+        // var GLOBAL_HOST = 'https://app.compustrom.com/d';
         if( ! (/^localhost[:]*/.test( location.host )) && location.port != 1841 ){
             // Framework compustrom
-            GLOBAL_HOST = '..';
+            //GLOBAL_HOST = '..';
+            GLOBAL_HOST = 'http://192.168.1.106:8080/compustrom';
         }
     </script>
     <!--

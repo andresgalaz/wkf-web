@@ -15,7 +15,7 @@ Ext.define('wkf.view.dashboard.principal.TabPanel',{
 
     items: [
         {
-            title: 'Tareas',
+            title: 'Tareas Pendientes',
             itemId: 'tabTareas',
             items: [
                 {

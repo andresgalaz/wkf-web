@@ -16,7 +16,7 @@ Ext.application({
 
         Ext.Ajax.request({
             url: GLOBAL_HOST + '/do/estadoSesion',
-            cors: true, withCredentials: true, useDefaultXhrHeader: false,
+            cors: true, useDefaultXhrHeader: false,
             method: 'POST',
             
             success: function (response) {
@@ -43,6 +43,9 @@ Ext.application({
                     mainCtrl.onLoginOk();
                 }
                 // }, 1000);
+            },
+            failure: function(response, opts) {
+                console.log('server-side failure with status code ' + response.status, response);
             }
         });
     }
