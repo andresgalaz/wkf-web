@@ -24,19 +24,7 @@ Ext.define('wkf.view.main.MainViewController', {
     },
 
     doLogin: function () {
-        // var me = this,
-        //     refs = me.getReferences(),
-        //     pnLogin = refs.wndLogin ? refs.wndLogin : Ext.create({
-        //         xtype: 'login',
-        //         reference: 'wndLogin',
-        //         listeners: {
-        //             close: 'onLoginOk',
-        //         }
-        //     });
-
-        // console.log('[doLogin] login', pnLogin);
-        // pnLogin.show();
-        // this.redirectTo('login');
+    	// TODO: AGV Verificar si se usa
     },
 
     onLoginOk: function (pnl, opts) {
@@ -56,7 +44,6 @@ Ext.define('wkf.view.main.MainViewController', {
             stNavigationTree.getRoot().removeAll();
         }
 
-        console.log('[onLoginOk] usuario', cxnCtrl.getUsuario());
         stNavigationTree.load({
             params: {
                 prm_cCodArbol: cxnCtrl.getSistemaId()
@@ -134,11 +121,7 @@ Ext.define('wkf.view.main.MainViewController', {
             cors: true, withCredentials: true, useDefaultXhrHeader: false,
             method: 'POST',
             success: function (response, opts) {
-                if (response.status == 200) {
-                    // console.log('[onLogout] login', pnLogin);
-                    // pnLogin.show();
-
-                } else
+                if (response.status != 200)
                     console.error(response.responseText);
             },
             failure: function (response, opts) {

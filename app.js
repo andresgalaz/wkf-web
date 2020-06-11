@@ -16,23 +16,16 @@ Ext.application({
 
         Ext.Ajax.request({
             url: GLOBAL_HOST + '/do/estadoSesion',
-            cors: true, useDefaultXhrHeader: false,
+            cors: true, withCredentials: true, useDefaultXhrHeader: false,
             method: 'POST',
             
             success: function (response) {
                 var sesion = Ext.decode(response.responseText),
                     oUsr = {};
 
-                console.log('[lauch] estadoSesion', sesion);
-                
-                // setTimeout(function() {
                 if (!sesion.bConectado) {
-                    console.log('[launch] Usuario no conectado');
                     mainCtrl.doLogin();
-
-                } else {
-                    console.log('[launch] Usuario conectado');   
-                    
+                } else {                    
                     oUsr['pUsuario'] = sesion.pUsuario;
                     oUsr['cUsuario'] = sesion.cUsuario;
                     oUsr['cNombre'] = sesion.cNombre;
@@ -42,10 +35,6 @@ Ext.application({
                     cnxCtrl.setUsuario(oUsr);
                     mainCtrl.onLoginOk();
                 }
-                // }, 1000);
-            },
-            failure: function(response, opts) {
-                console.log('server-side failure with status code ' + response.status, response);
             }
         });
     }

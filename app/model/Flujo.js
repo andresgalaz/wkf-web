@@ -3,7 +3,7 @@ Ext.define('wkf.model.Flujo', {
     requires: ['wkf.proxy.JsonCall'],
 
     idProperty: 'pAccion',
-    fields: ['pFlujo','cNombre','cTitulo','cURL','nDuracionLimite'],          
+    fields: ['pFlujo','cNombre','cTitulo','cURL','nDuracionLimite', 'fSistema'],          
     
     proxy: {
         type: 'jsoncall',

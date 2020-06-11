@@ -5,16 +5,24 @@ Ext.define('wkf.view.flujo.detalle.Flujo',{
     bbar: [
         '->',
         {
-            text: 'Cancelar'
+            text: 'Cancelar',
+            iconCls : 'x-fa fa-undo',
+            handler : 'onFrmFlujoLimpiar'
         }, {
-            text: 'Grabar'
+            text: 'Grabar',
+        	iconCls : 'x-fa fa-save',
+        	handler : 'onFrmFlujoGrabar'
         }
     ],
     items: [ {
-            xtype: 'hidden',
-            name: 'pFlujo',
-            bind: { value: '{flujoSeleccionado.pFlujo}' }
-        }, {
+         	xtype: 'hidden',
+	        name: 'fSistema',
+	        bind: { value: '{flujoSeleccionado.fSistema}' }
+	    }, {
+	        xtype: 'hidden',
+	        name: 'pFlujo',
+	        bind: { value: '{flujoSeleccionado.pFlujo}' }
+	    }, {
             xtype: 'textfield',
             fieldLabel: 'Título',
             name: 'cTitulo',  

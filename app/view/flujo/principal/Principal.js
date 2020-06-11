@@ -22,7 +22,9 @@ Ext.define('wkf.view.flujo.principal.Principal',{
     items: [
         {
             xtype: 'container',
-            html: 'Dibujo Flujo',
+            html: '<div id="contenedorGrafico"'
+                + ' style="position:relative;overflow:hidden;width:1300px;height:500px;background:url(\'vendor/mxgraph/src/images/grid.gif\');cursor:default;">'
+                + '</div>',
             flex: 1
         },
         {
