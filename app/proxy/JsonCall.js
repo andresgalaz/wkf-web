@@ -11,15 +11,7 @@ Ext.define('wkf.proxy.JsonCall', {
         type : 'json',
         rootProperty : 'records',
         totalProperty : 'count',
-        successProperty: 'success',
-        // transform: {
-        //     fn:function(data){
-        //         // Convierte la información cJsonData de String a JSON
-        //         for(i = 0; i < data.records.length; i++)
-        //             data.records[i].cJsonData = Ext.decode(data.records[i].cJsonData);
-        //         return data;
-        //     }	
-        // }
+        successProperty: 'success'
     },
     
     listeners: {

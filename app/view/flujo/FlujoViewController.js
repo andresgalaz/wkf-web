@@ -4,6 +4,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     requires: ['wkf.model.EtapaFuncion'],
 
     seleccionarFlujo: function() {
+        console.log('seleccionarFlujo');
         var me = this,
             vm = me.getViewModel(),
             flujo = vm.get('flujoSeleccionado'),
@@ -34,15 +35,19 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onCbFlujoSelect: function(cb, record, eOpts) {
+        console.log('onCbFlujoSelect');
         var me = this,
             vm = me.getViewModel(),
             flujo = record.getData();
 
         vm.set('flujoSeleccionado', flujo);
         me.seleccionarFlujo();
+        
+        wkf.MxGraph.leer({ pFlujo : record.data.pFlujo });        
     },
 
     onCbSistemaSelect: function(cb, record, eOpts) {
+        console.log('onCbSistemaSelect');
         var me = this,
             vm = me.getViewModel(),
             refs = me.getReferences(),
@@ -59,6 +64,8 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         frmFlujo.reset();
         
         stEtapa.removeAll();
+        wkf.MxGraph.iniciar();        
+        
 
         detallePanel.setActiveItem(frmFlujo);
 
@@ -68,8 +75,9 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         tab.child('#tabFuncionesAccion').tab.hide();
 
         tab.setActiveTab(tab.child('#tabEtapas'));
-
+        
         if (pSistema) {
+            vm.set('sistemaSeleccionado', record);
             stFlujo.load({
                 params: {
                     prm_sistema: pSistema
@@ -79,6 +87,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onFlujoVerDetalle: function() {
+        console.log('onFlujoVerDetalle');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
@@ -91,9 +100,11 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onFrmAccionGrabar: function() {
+        console.log('onFrmAccionGrabar');
         var me = this,
-            frmAccion = me.getReferences().frmAccion,
-            stAccionFn = me.getViewModel().getStore('stAccionFuncion')
+        	vm = me.getViewModel(),
+            stAccionFn = vm.getStore('stAccionFuncion'),
+            frmAccion = me.getReferences().frmAccion            
             ;
             
 
@@ -102,7 +113,6 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     	// Copia Registros Modificados
     	for (var i = 0; i < objData.length; i++)
     		arrData[arrData.length] = objData[i].data;
-    	console.log(arrData);
 	        
         frmAccion.submit({
         	params: { 
@@ -114,7 +124,17 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
 				var resp = Ext.decode(response.responseText);
 				if (resp.success) {
 			        stAccionFn.commitChanges();
-					
+			        var accion = frmAccion.getValues(),
+		            	stEtapa = vm.getStore('stEtapa'),
+		            	regOrigen = stEtapa.findRecord('pEtapa',accion.fEtapaOrigen),
+	            		regDestino = stEtapa.findRecord('pEtapa',accion.fEtapaDestino);
+			        
+			        wkf.MxGraph.insertaAccion({
+						id : accion.cNombre,
+						titulo : accion.cTitulo,
+						etapaOrigen : regOrigen.get('cNombre'),
+						etapaDestino : regDestino.get('cNombre')
+			        });
 			        me.onFrmAccionVolver();
 					return;
 				}
@@ -130,6 +150,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onFrmAccionVolver: function() {
+        console.log('onFrmAccionVolver');
         var me = this,
             refs = me.getReferences(),
             detallePanel = refs.detallePanel,
@@ -150,6 +171,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onFrmEtapaGrabar: function() {
+        console.log('onFrmEtapaGrabar');
         var me = this,
             frmEtapa = me.getReferences().frmEtapa,
             stEtapaFn = me.getViewModel().getStore('stEtapaFuncion')
@@ -161,7 +183,6 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     	// Copia Registros Modificados
     	for (var i = 0; i < objData.length; i++)
     		arrData[arrData.length] = objData[i].data;
-    	console.log(arrData);
 	        
         frmEtapa.submit({
         	params: { 
@@ -173,7 +194,10 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
 				var resp = Ext.decode(response.responseText);
 				if (resp.success) {
 			        stEtapaFn.commitChanges();
-					
+			        wkf.MxGraph.insertaEtapa({
+						id : frmEtapa.getValues().cNombre,
+						titulo : frmEtapa.getValues().cTitulo
+			        });
 			        me.onFrmEtapaVolver();
 					return;
 				}
@@ -189,13 +213,14 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onFrmEtapaVolver: function() {
+        console.log('onFrmEtapaVolver');
         var me = this,
             refs = me.getReferences(),
             detallePanel = refs.detallePanel,
             stEtapa = me.getViewModel().getStore('stEtapa');
             frmFlujo = refs.frmFlujo,
             tab = refs.tabFlujo;
-
+            
         detallePanel.setActiveItem(frmFlujo);
 
         // Muestras tabs especificos de la etapa seleccionada
@@ -207,8 +232,105 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         tab.setActiveTab(tab.child('#tabEtapas'));
         stEtapa.reload();
     },
+    
+    onFrmFlujoGrabar:function(){
+        console.log('onFrmFlujoGrabar');
+        var me = this,
+        vm = me.getViewModel(),
+        frmFlujo = me.getReferences().frmFlujo,
+        flujo = vm.get('flujoSeleccionado');
+        
+        if (!flujo )
+        	return;
+        
+        if (flujo.pFlujo > 0)
+        	wkf.MxGraph.grabar({ pFlujo : flujo.pFlujo });
+        
+        frmFlujo.submit({
+        	params: { 
+        		prm_funcion: 'jStore.wkf.admin.flujo.Graba'
+        	},
+            paramDataProperty: 'prm_cJsonData', 
+            success:function(response, opts){
+				var resp = Ext.decode(response.responseText);
+				if (resp.success){
+					me.onFrmFlujoLimpiar();
+	    			Ext.Msg.show({
+	    				title : 'Formulario Flujo',
+	    				message : 'Se grabó correctamente',
+	    				buttons : Ext.Msg.OK,
+	    				icon : Ext.Msg.INFO
+	    			});                        	
+			        
+					return;
+				} 
+    			Ext.Msg.show({
+    				title : 'Formulario Flujo',
+    				message : resp.message,
+    				buttons : Ext.Msg.OK,
+    				icon : Ext.Msg.ERROR
+    			});                        	
+            }
+        });
+	        
+    },
+    
+    onFrmFlujoLimpiar:function(){
+        console.log('onFrmFlujoLimpiar');
+        var me = this,
+        	refs = me.getReferences(),
+        	vm = me.getViewModel(),
+        	frmFlujo = me.getReferences().frmFlujo;
+        
+        refs.cbFlujo.clearValue();
+        
+        vm.set('flujoSeleccionado', null);
+        frmFlujo.setTitle('Detalle Flujo');
+        frmFlujo.reset();
+        vm.getStore('stEtapa').removeAll();        
+        wkf.MxGraph.iniciar();        
+        
+    },
+        
+    onFrmFlujoNuevo:function(){
+        console.log('onFrmFlujoNuevo');
+        var me = this,
+        vm = me.getViewModel(),
+        sistema = vm.get('sistemaSeleccionado')
+        refs = me.getReferences(),
+        detallePanel = refs.detallePanel,
+        frmFlujo = refs.frmFlujo;
 
+        
+        // Valores pòr defecto
+        vm.set('flujoSeleccionado', 
+    		Ext.create('wkf.model.Flujo', {
+    			fSistema : sistema.get('pSistema'), 
+    			nDuracionLimite: 24,
+                nuevo: true
+            })
+        );       
+        // frmFlujo.reset();
+        frmFlujo.setTitle('Nuevo Flujo');
+        vm.getStore('stEtapa').removeAll();
+        
+        detallePanel.setActiveItem(frmFlujo);        
+    },
+    
+    onFrmFlujoRedibujar:function(){
+    	console.log('onFrmFlujoRedibujar'); 
+        var me = this,
+        	vm = me.getViewModel();
+    	
+        wkf.MxGraph.leer({ 
+        	pFlujo : vm.get('flujoSeleccionado').pFlujo,
+        	reDibujar : true
+        });        
+    	
+    },    
+    
     onGrillaAccionesNueva: function() {
+        console.log('onGrillaAccionesNueva');
         var me = this,
             refs = me.getReferences(),
             detallePanel = refs.detallePanel,
@@ -246,6 +368,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaAccionesEliminar: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaAccionesEliminar');
         var me = this,
 	        rec = grid.getStore().getAt(rowIndex),
 	        pAccion = rec.get('pAccion');
@@ -268,6 +391,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
    	},
 
     onGrillaAccionesVerDetalle: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaAccionesVerDetalle');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
@@ -303,6 +427,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaAccionFuncionNueva: function() {
+        console.log('onGrillaAccionFuncionNueva');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
@@ -319,6 +444,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaAccionFuncionEliminar: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaAccionFuncionEliminar');
         var me = this,
         rec = grid.getStore().getAt(rowIndex),
         pAccion = rec.get('pAccion')
@@ -344,6 +470,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaAccionFuncionNuevaCancel: function(editor, context, eOpts) {
+        console.log('onGrillaAccionFuncionNuevaCancel');
         var me = this,
             refs = me.getReferences(),
             st = refs.gpAccionFuncion.getStore(),
@@ -351,20 +478,19 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         
         if (rec.get('nuevo')) {
             st.remove(rec);
-
         } else {
             // TODO
         }
     },
 
     onGrillaAccionFuncionNuevaGrabar: function(editor, context, eOpts) {
+        console.log('onGrillaAccionFuncionNuevaGrabar');
         var me = this,
             rec = context.record;
-        
-        console.log('[onGrillaAccionFuncionNuevaGrabar]', context);
     },
 
     onGrillaEtapaEliminar: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaEtapaEliminar');
         var me = this,
         rec = grid.getStore().getAt(rowIndex),
         pEtapa = rec.get('pEtapa');
@@ -387,29 +513,45 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
 	},
 
     onGrillaEtapaNueva: function() {
+        console.log('onGrillaEtapaNueva');
         var me = this,
         	vm = me.getViewModel(),
             refs = me.getReferences(),
+            tab = refs.tabFlujo,
             detallePanel = refs.detallePanel,
             frmEtapa = refs.frmEtapa,
             flujo = vm.get('flujoSeleccionado')
+            stEtapaFuncion = vm.getStore('stEtapaFuncion'),
+            stAccion = vm.getStore('stAccion')
             ;
-        // Valores pòr defecto
-        vm.set('etapaSeleccionada', 
-    		Ext.create('wkf.model.Etapa', {
-    			tpEtapa: 'M',
-    			fFlujo: flujo.pFlujo,
-    			nDuracion: 8,
-                nuevo: true
-            })
-        );       
         detallePanel.setActiveItem(frmEtapa);
 
-        frmEtapa.reset();
-        frmEtapa.setTitle('Nueva Etapa');        
+        // Valores pòr defecto
+		var etapaNueva = Ext.create('wkf.model.Etapa', {
+			tpEtapa: 'M',
+			fFlujo: flujo.pFlujo,
+			fRolFuncion: null,
+			nDuracion: 8,
+            nuevo: true
+        })
+        
+        vm.set('etapaSeleccionada', etapaNueva );
+        frmEtapa.setTitle('Nueva Etapa');
+        
+        // Muestras tabs especificos de la etapa seleccionada
+        tab.child('#tabEtapas').tab.hide();
+        tab.child('#tabFuncionesEtapa').tab.show();
+        tab.child('#tabAcciones').tab.show();
+        tab.child('#tabFuncionesAccion').tab.hide();
+
+        tab.setActiveTab(tab.child('#tabFuncionesEtapa'));
+        
+        stEtapaFuncion.removeAll();        
+        stAccion.removeAll();        
     },
 
     onGrillaEtapaVerDetalle: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaEtapaVerDetalle');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
@@ -424,7 +566,6 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         detallePanel.setActiveItem(frmEtapa);
 
         vm.set('etapaSeleccionada', rec);
-        // frmEtapa.loadRecord(rec);
         frmEtapa.setTitle(rec.get('titulo'));
 
         // Muestras tabs especificos de la etapa seleccionada
@@ -450,6 +591,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaEtapaFuncionNueva: function() {
+        console.log('onGrillaEtapaFuncionNueva');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
@@ -466,6 +608,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaEtapaFuncionEliminar: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaEtapaFuncionEliminar');
         var me = this,
         rec = grid.getStore().getAt(rowIndex),
         pEtapa = rec.get('pEtapa')
@@ -491,6 +634,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
     
     onGrillaEtapaFuncionNuevaCancel: function(editor, context, eOpts) {
+        console.log('onGrillaEtapaFuncionNuevaCancel');
         var me = this,
             refs = me.getReferences(),
             st = refs.gpEtapaFuncion.getStore(),
@@ -506,6 +650,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     },
 
     onGrillaEtapaFuncionNuevaGrabar: function(editor, context, eOpts) {
+        console.log('onGrillaEtapaFuncionNuevaGrabar');
         var me = this,
             rec = context.record;
         

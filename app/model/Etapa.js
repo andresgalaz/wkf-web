@@ -25,7 +25,7 @@ Ext.define('wkf.model.Etapa', {
         }},
         { name: 'nDuracion', type: 'number' },
         { name: 'cRol', type: 'auto' },
-        { name: 'fRolFuncion', type: 'int' },
+        { name: 'fRolFuncion', type: 'int', allowNull: true },
         { name: 'bTarea', type: 'boolean' },
         { name: 'bAutorizacion', type: 'boolean' },
         { name: 'cURL', type: 'auto' },

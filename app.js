@@ -23,16 +23,9 @@ Ext.application({
                 var sesion = Ext.decode(response.responseText),
                     oUsr = {};
 
-                console.log('[lauch] estadoSesion', sesion);
-                
-                // setTimeout(function() {
                 if (!sesion.bConectado) {
-                    console.log('[launch] Usuario no conectado');
                     mainCtrl.doLogin();
-
-                } else {
-                    console.log('[launch] Usuario conectado');   
-                    
+                } else {                    
                     oUsr['pUsuario'] = sesion.pUsuario;
                     oUsr['cUsuario'] = sesion.cUsuario;
                     oUsr['cNombre'] = sesion.cNombre;
@@ -42,7 +35,6 @@ Ext.application({
                     cnxCtrl.setUsuario(oUsr);
                     mainCtrl.onLoginOk();
                 }
-                // }, 1000);
             }
         });
     }

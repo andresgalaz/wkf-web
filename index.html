@@ -10,13 +10,22 @@
     <script>
         // Indica si activa o no if (DEBUG) console.log
         var DEBUG = false;
-        // Se requiere cuando se usa sencha cmd
-        var GLOBAL_HOST = 'https://app.compustrom.com/d';
-        if( ! (/^localhost[:]*/.test( location.host )) && location.port != 1841 ){
-            // Framework compustrom
-            GLOBAL_HOST = '..';
+        // Servidor Compustrom
+        var GLOBAL_HOST = '..';
+        {
+            // Pasa los parámetros del REQUEST a un Objeto
+	        var objSearch = location.search.substring(1).split("&").reduce(function(result, value) {
+	            var parts = value.split('=');
+	            if (parts[0]) result[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+	            return result;
+	          }, {});
+			// Usa parámtro GLOBAL_HOST desde location.search
+	        GLOBAL_HOST = objSearch.GLOBAL_HOST || GLOBAL_HOST;
         }
+                  
+        mxBasePath = 'vendor/mxgraph/src';
     </script>
+     <script type="text/javascript" src="vendor/mxgraph/src/js/mxClient.js"></script>
     <!--
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...

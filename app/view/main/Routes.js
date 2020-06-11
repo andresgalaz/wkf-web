@@ -6,8 +6,6 @@ Ext.define('wkf.view.main.Routes', {
 
     init: function () {
         var me = this;
-
-        // console.log('[init]');
         me.titulo = 'Compustrom';
     },
 
@@ -45,8 +43,6 @@ Ext.define('wkf.view.main.Routes', {
                                 close: 'onLoginOk',
                             }
                         });
-
-                        console.log('[beforeRoute] login', pnLogin);
                         pnLogin.show();
                     }
                     // me.redirectTo('login');
@@ -202,8 +198,6 @@ Ext.define('wkf.view.main.Routes', {
             activeView;
 
         view.mask('Cargando Sistema');
-
-        console.log('[onRouteChange] usuario', cxnCtrl.getUsuario());
 
         if (stNavigationTree.getCount() == 0) {
             // Primera carga del sistema requiere sincronismo con el store del mainTree

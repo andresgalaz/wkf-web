@@ -1,11 +1,6 @@
-ALTER TABLE `xformgen4`.`wkf_accion` 
-DROP FOREIGN KEY `FKACCIONETAPA_ORIGEN`;
-
-ALTER TABLE `xformgen4`.`wkf_accionDestino` 
-  DROP FOREIGN KEY  `FK_ACCIONDESTINO_ACCION`;
-
-ALTER TABLE `xformgen4`.`wkf_accionFuncion` 
-  DROP FOREIGN KEY `FK_WKFACCIONFUNCION_ACCION`;
+ALTER TABLE `xformgen4`.`wkf_accion`  		DROP FOREIGN KEY `FKACCIONETAPA_ORIGEN`;
+ALTER TABLE `xformgen4`.`wkf_accionDestino` DROP FOREIGN KEY `FK_ACCIONDESTINO_ACCION`;
+ALTER TABLE `xformgen4`.`wkf_accionFuncion` DROP FOREIGN KEY `FK_WKFACCIONFUNCION_ACCION`;
 
 ALTER TABLE `xformgen4`.`wkf_accion` 
 CHANGE COLUMN `PACCION` `pAccion` INT(11) NOT NULL ,
@@ -18,9 +13,6 @@ CHANGE COLUMN `CESTILO` `cJsonData` TEXT NULL DEFAULT NULL COMMENT 'Configuracio
 
 ALTER TABLE `xformgen4`.`wkf_accion` 
 CHANGE COLUMN `cJsonData` `cJsonData` JSON NULL DEFAULT NULL COMMENT 'Data no estructurada: Configuracion del boton para el front' ;
-
-ALTER TABLE `xformgen4`.`wkf_accion` 
-CHANGE COLUMN `pAccion` `pAccion` INT(11) NOT NULL AUTO_INCREMENT ;
 
 ALTER TABLE `xformgen4`.`wkf_accion` 
 ADD CONSTRAINT `FKACCIONETAPA_ORIGEN`
