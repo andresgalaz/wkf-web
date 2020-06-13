@@ -1,22 +1,94 @@
 Ext.define('wkf.MxGraph', {
 	singleton : true,
 	graph : null,
+	undoManager : null,
+	viewController : null,
 
 	getGraph : function(opcs) {
 		if (this.graph != null)
 			return this.graph;
 
 		// this.iniciar();
-		var container = document.getElementById('contenedorGrafico');
+		var me = this, container = document.getElementById('contenedorGrafico'), graph = new mxGraph(container);
+
 		mxEvent.disableContextMenu(container);
-		this.graph = new mxGraph(container);
+		graph.setTooltips(true);
+		// graph.setConnectable(true);
+		// Hablita seleccionar un rectangulo
+		new mxRubberband(graph);
 
-		var style = this.graph.getStylesheet().getDefaultEdgeStyle();
+		// Sobre-escribe el manejo del doble clic
+		var mxGraphDblClick = mxGraph.prototype.dblClick;
+		mxGraph.prototype.dblClick = function(evt, cell) {
+			// Deshablita
+			// mxGraphDblClick.call(this, evt, cell);
+		};
+
+		// var style = graph.getStylesheet().getDefaultEdgeStyle();
+		// style[mxConstants.STYLE_ROUNDED] = true;
+		// style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
+		// graph.alternateEdgeStyle = 'elbow=vertical';
+
+		// Creates the default style for vertices
+		var style = [];
+		style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
+		style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+		style[mxConstants.STYLE_STROKECOLOR] = 'gray';
 		style[mxConstants.STYLE_ROUNDED] = true;
-		style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
-		this.graph.alternateEdgeStyle = 'elbow=vertical';
+		style[mxConstants.STYLE_FILLCOLOR] = '#EEEEEE';
+		style[mxConstants.STYLE_GRADIENTCOLOR] = 'white';
+		style[mxConstants.STYLE_FONTCOLOR] = '#774400';
+		style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
+		style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+		style[mxConstants.STYLE_FONTSIZE] = '12';
+		style[mxConstants.STYLE_FONTSTYLE] = 1;
+		graph.getStylesheet().putDefaultVertexStyle(style);
 
-		return this.graph;
+		// Creates the default style for edges
+		style = [];
+		style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_CONNECTOR;
+		style[mxConstants.STYLE_STROKECOLOR] = '#6482B9';
+		style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
+		style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_MIDDLE;
+		style[mxConstants.STYLE_EDGE] = mxEdgeStyle.ElbowConnector;
+		style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_CLASSIC;
+		style[mxConstants.STYLE_FONTSIZE] = '10';
+		graph.getStylesheet().putDefaultEdgeStyle(style);
+
+		var undoManager = new mxUndoManager();
+		var listener = function(sender, evt) {
+			undoManager.undoableEditHappened(evt.getProperty('edit'));
+		};
+		graph.getModel().addListener(mxEvent.UNDO, listener);
+		graph.getView().addListener(mxEvent.UNDO, listener);
+
+		// Handles keystroke events
+		var keyHandler = new mxKeyHandler(graph);
+		keyHandler.bindControlKey(90, function() {
+			// ctrl + 90: z
+			undoManager.undo();
+		});
+		this.undoManager = undoManager;
+
+		// TODO: Para Maxito, este es el punto para enchanchar algún listener
+		// de Sencha, el siguiente handler detecta si se selccionó una Etapa o Accion
+		graph.createVertexHandler = function(state) {
+			if (state != null) {
+				console.log("createVertexHandler:", state.cell);
+				me.viewController.seleccionarEtapa(state.cell.getId().substring(4));
+			}
+			return mxGraph.prototype.createVertexHandler.apply(this, arguments);
+		};
+		graph.createEdgeHandler = function(state, edgeStyle) {
+			if (state != null) {
+				console.log("createEdgeHandler:", state.cell);
+				var cEtapaOrigen = state.cell.source.getId().substring(4), cAccion = state.cell.getId().substring(4);
+				me.viewController.seleccionarAccion(cEtapaOrigen, cAccion);
+			}
+			return mxGraph.prototype.createEdgeHandler.apply(this, arguments);
+		};
+
+		return this.graph = graph;
 	},
 
 	grabar : function(opcs) {
@@ -146,12 +218,24 @@ Ext.define('wkf.MxGraph', {
 				etapaDestino : accion.cEtapaDestino
 			});
 		}
+
+		// var layout = new mxFastOrganicLayout(graph);
+		// var parent = graph.getDefaultParent();
+		// // Moves stuff wider apart than usual
+		// layout.forceConstant = 180;
+		//		
+		// graph.getModel().beginUpdate();
+		// layout.execute(parent);
+		// graph.getModel().endUpdate();
+		this.undoManager.clear();
+
 	},
 
 	loadFromXml : function(strXml) {
 		var graph = this.getGraph(), doc = mxUtils.parseXml(strXml), codec = new mxCodec(doc);
 
 		codec.decode(doc.documentElement, graph.getModel());
+		this.undoManager.clear();
 	},
 
 	leer : function(opcs) {
@@ -163,6 +247,9 @@ Ext.define('wkf.MxGraph', {
 		opcs.reDibujar = (opcs.reDibujar || false);
 		if (!opcs.pFlujo)
 			return true;
+		// TODO: Para Maxito, acá se recibe el controlador Sencha, esto no se debería
+		// utilizar si mxGraph es una componente de Sencha
+		me.viewController = opcs.viewController;
 
 		// Si no viene xml base 64 en los datos de flujo, se genera a partir de la información del flujo
 		wkf.Helper.jsonCall({
