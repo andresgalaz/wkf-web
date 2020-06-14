@@ -6,7 +6,8 @@ Ext.define('wkf.controller.Conexion', {
 
         me.usuario = {};
         me.appId = '05'; // ID del sistema, corresponde a la PK de xformgen4.tSistema, se utiliza en permisos y carga del menu
-        me.defaultDataSource = "vylDS";
+        me.appNombre = '';
+        me.defaultDataSource = "xgenJNDI";
     },
 
     getDefaultDS: function() {
@@ -55,6 +56,10 @@ Ext.define('wkf.controller.Conexion', {
 
     getSistemaId: function() {
         return this.appId;
+    },
+
+    getSistemaNombre: function() {
+        return this.appNombre;
     },
 
     setUsuario: function(usr) {

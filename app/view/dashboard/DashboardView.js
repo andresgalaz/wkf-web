@@ -21,6 +21,10 @@ Ext.define('wkf.view.dashboard.DashboardView',{
         align: 'stretch'
     },
 
+    listeners: {
+        activate: 'onActivate'
+    },
+
     scrollable: 'y',
 
     items: [
@@ -31,30 +35,15 @@ Ext.define('wkf.view.dashboard.DashboardView',{
     
             tpl: [
                 '<div class="dash-meta">',
-                    '<tpl for=".">',
-                        '<span>',
-                            '<div>{estadistica}</div> {descripcion}',
-                        '</span>',
-                    '</tpl>',
+                    '<span><div>{nTotal}</div>Tareas Pendientes</span>',
+                    '<span><div>{nVencidas}</div>Vencidas</span>',
+                    '<span><div>{nNormal}</div>Por vencer</span>',
+                    '<span><div>{nNuevas}</div>Recientes</span>',
                 '</div>'
             ],
-    
-            data: [{
-                descripcion: 'Tareas Pendientes',
-                estadistica: 10
-            },{
-                descripcion: 'Vencidas',
-                estadistica: 7
-            },{
-                descripcion: 'Por vencer',
-                estadistica: 2
-            },{
-                descripcion: 'Recientes',
-                estadistica: 1
-            },{
-                descripcion: 'Cumplidas en termino',
-                estadistica: '73%'
-            }]
+            bind: {
+                data: '{totales}'
+            }
         },
         {
             xtype: 'container',
