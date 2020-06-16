@@ -194,20 +194,21 @@ Ext.define('wkf.MxGraph', {
 		flujoData.etapas = flujoData.etapas || [];
 		flujoData.acciones = flujoData.acciones || [];
 		// Crea etapas
-		var nX = 20, nY = 20;
+		// var nX = 20, nY = 20;
 		for (var i = 0; i < flujoData.etapas.length; i++) {
 			var etapa = flujoData.etapas[i];
 			this.insertaEtapa({
 				id : etapa.cNombre,
-				titulo : etapa.cTitulo,
-				x : nX,
-				y : nY
+				titulo : etapa.cTitulo
+//				,
+//				x : nX,
+//				y : nY
 			});
-			nX += 140;
-			if (nX > 700) {
-				nY += 100;
-				nX = 20;
-			}
+//			nX += 140;
+//			if (nX > 700) {
+//				nY += 100;
+//				nX = 20;
+//			}
 		}
 		for (var i = 0; i < flujoData.acciones.length; i++) {
 			var accion = flujoData.acciones[i];
@@ -219,14 +220,40 @@ Ext.define('wkf.MxGraph', {
 			});
 		}
 
-		// var layout = new mxFastOrganicLayout(graph);
-		// var parent = graph.getDefaultParent();
-		// // Moves stuff wider apart than usual
-		// layout.forceConstant = 180;
-		//		
-		// graph.getModel().beginUpdate();
-		// layout.execute(parent);
-		// graph.getModel().endUpdate();
+		{
+			// Aplica un Layout Automático
+			var layout = new mxFastOrganicLayout(graph);
+			var parent = graph.getDefaultParent();
+			// Moves stuff wider apart than usual
+			layout.forceConstant = 180;
+
+			graph.getModel().beginUpdate();
+			layout.execute(parent);
+			graph.getModel().endUpdate();
+		}
+
+		{
+			// Borra todos los EDGES y los vuelve a crear
+			graph.getModel().beginUpdate();
+			for (cId in graph.getModel().cells) {
+				if (cId.startsWith('ACC_')){
+					var acc = graph.getModel().cells[ cId ], eta = acc.source;
+					graph.getModel().remove(acc);			
+					// eta.remove(acc, false);					
+				}
+			}
+			graph.getModel().endUpdate();
+		}
+		for (var i = 0; i < flujoData.acciones.length; i++) {
+			var accion = flujoData.acciones[i];
+			this.insertaAccion({
+				id : accion.cNombre,
+				titulo : accion.cTitulo,
+				etapaOrigen : accion.cEtapaOrigen,
+				etapaDestino : accion.cEtapaDestino
+			});
+		}
+
 		this.undoManager.clear();
 
 	},
