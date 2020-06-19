@@ -16,7 +16,7 @@
      *      ]
      */
     "requires": [
-        "font-awesome", "charts"
+        "font-awesome", "charts", "mxgraph"
     ],
 
     /**

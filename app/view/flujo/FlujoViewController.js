@@ -1,7 +1,10 @@
 Ext.define('wkf.view.flujo.FlujoViewController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.flujo-flujoview',
-    requires: ['wkf.model.EtapaFuncion'],
+    requires: [
+        'wkf.model.EtapaFuncion', 
+        // 'wkf.MxGraph'
+    ],
 
     seleccionarFlujo: function() {
         console.log('seleccionarFlujo');
@@ -38,12 +41,14 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         console.log('onCbFlujoSelect');
         var me = this,
             vm = me.getViewModel(),
+            refs = me.getReferences(),
             flujo = record.getData();
 
         vm.set('flujoSeleccionado', flujo);
         me.seleccionarFlujo();
-        
-        wkf.MxGraph.leer({ pFlujo : record.data.pFlujo });        
+
+        // wkf.MxGraph.leer({ pFlujo: record.data.pFlujo});
+        refs.mxGraficoFlujo.leer({ pFlujo : record.data.pFlujo });        
     },
 
     onCbSistemaSelect: function(cb, record, eOpts) {
@@ -64,9 +69,10 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         frmFlujo.reset();
         
         stEtapa.removeAll();
-        wkf.MxGraph.iniciar();        
-        
 
+        // wkf.MxGraph.iniciar();
+        // refs.mxGraficoFlujo.iniciar();        
+        
         detallePanel.setActiveItem(frmFlujo);
 
         tab.child('#tabEtapas').tab.show();
@@ -104,8 +110,8 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         var me = this,
         	vm = me.getViewModel(),
             stAccionFn = vm.getStore('stAccionFuncion'),
-            frmAccion = me.getReferences().frmAccion            
-            ;
+            frmAccion = me.getReferences().frmAccion,
+            refs = me.getReferences();
             
 
     	var objData = stAccionFn.getData().items;
@@ -129,7 +135,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
 		            	regOrigen = stEtapa.findRecord('pEtapa',accion.fEtapaOrigen),
 	            		regDestino = stEtapa.findRecord('pEtapa',accion.fEtapaDestino);
 			        
-			        wkf.MxGraph.insertaAccion({
+			        refs.mxGraficoFlujo.insertaAccion({
 						id : accion.cNombre,
 						titulo : accion.cTitulo,
 						etapaOrigen : regOrigen.get('cNombre'),
@@ -174,8 +180,8 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         console.log('onFrmEtapaGrabar');
         var me = this,
             frmEtapa = me.getReferences().frmEtapa,
-            stEtapaFn = me.getViewModel().getStore('stEtapaFuncion')
-            ;
+            stEtapaFn = me.getViewModel().getStore('stEtapaFuncion'),
+            refs = me.getReferences();
             
 
     	var objData = stEtapaFn.getData().items;
@@ -194,7 +200,7 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
 				var resp = Ext.decode(response.responseText);
 				if (resp.success) {
 			        stEtapaFn.commitChanges();
-			        wkf.MxGraph.insertaEtapa({
+			        refs.mxGraficoFlujo.insertaEtapa({
 						id : frmEtapa.getValues().cNombre,
 						titulo : frmEtapa.getValues().cTitulo
 			        });
@@ -236,15 +242,16 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     onFrmFlujoGrabar:function(){
         console.log('onFrmFlujoGrabar');
         var me = this,
-        vm = me.getViewModel(),
-        frmFlujo = me.getReferences().frmFlujo,
-        flujo = vm.get('flujoSeleccionado');
-        
+            vm = me.getViewModel(),
+            refs = me.getReferences(),
+            frmFlujo = me.getReferences().frmFlujo,
+            flujo = vm.get('flujoSeleccionado');
+            
         if (!flujo )
         	return;
         
         if (flujo.pFlujo > 0)
-        	wkf.MxGraph.grabar({ pFlujo : flujo.pFlujo });
+        	refs.mxGraficoFlujo.grabar({ pFlujo : flujo.pFlujo });
         
         frmFlujo.submit({
         	params: { 
@@ -288,21 +295,20 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         frmFlujo.setTitle('Detalle Flujo');
         frmFlujo.reset();
         vm.getStore('stEtapa').removeAll();        
-        wkf.MxGraph.iniciar();        
+        refs.mxGraficoFlujo.iniciar();        
         
     },
         
     onFrmFlujoNuevo:function(){
         console.log('onFrmFlujoNuevo');
         var me = this,
-        vm = me.getViewModel(),
-        sistema = vm.get('sistemaSeleccionado')
-        refs = me.getReferences(),
-        detallePanel = refs.detallePanel,
-        frmFlujo = refs.frmFlujo;
-
+            vm = me.getViewModel(),
+            sistema = vm.get('sistemaSeleccionado')
+            refs = me.getReferences(),
+            detallePanel = refs.detallePanel,
+            frmFlujo = refs.frmFlujo;
         
-        // Valores pòr defecto
+        // Valores por defecto
         vm.set('flujoSeleccionado', 
     		Ext.create('wkf.model.Flujo', {
     			fSistema : sistema.get('pSistema'), 
@@ -320,9 +326,10 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     onFrmFlujoRedibujar:function(){
     	console.log('onFrmFlujoRedibujar'); 
         var me = this,
-        	vm = me.getViewModel();
+            vm = me.getViewModel(),
+            refs = me.getReferences();
     	
-        wkf.MxGraph.leer({ 
+        refs.mxGraficoFlujo.leer({ 
         	pFlujo : vm.get('flujoSeleccionado').pFlujo,
         	reDibujar : true
         });        
@@ -656,5 +663,17 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         
         console.log('[onGrillaEtapaFuncionNuevaGrabar]', context);
     },
+
+    onMxGraficoFlujoRender: function(cmp, eOpts) {
+        cmp.loadFromXml('<mxGraphModel>' //
+            + '<root>'//
+            + '    <Workflow label="Workflow" description="" id="0"/>' //
+            + '    <Layer label="Default Layer" description="">' //
+            + '        <mxCell parent="0"/>' //
+            + '    </Layer>' //
+            + '</root>' //
+            + '</mxGraphModel>' //
+        );
+    }
 
 });

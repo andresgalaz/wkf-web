@@ -4,7 +4,8 @@ Ext.define('wkf.view.flujo.principal.Principal',{
 
     requires: [
         'wkf.view.flujo.FlujoToolbar',
-        'wkf.view.flujo.principal.TabPanel'
+        'wkf.view.flujo.principal.TabPanel',
+        'mxgraph.mxGraph'
     ],
 
     layout: {
@@ -21,10 +22,11 @@ Ext.define('wkf.view.flujo.principal.Principal',{
 
     items: [
         {
-            xtype: 'container',
-            html: '<div id="contenedorGrafico"'
-                + ' style="position:relative;overflow:hidden;width:1300px;height:500px;background:url(\'vendor/mxgraph/src/images/grid.gif\');cursor:default;">'
-                + '</div>',
+            xtype: 'mxgraph',
+            reference: 'mxGraficoFlujo',
+            listeners: {
+                render: 'onMxGraficoFlujoRender'
+            },
             flex: 1
         },
         {

@@ -11,7 +11,8 @@
         // Indica si activa o no if (DEBUG) console.log
         var DEBUG = false;
         // Servidor Compustrom
-        var GLOBAL_HOST = '..';
+        // var GLOBAL_HOST = '..';
+        var GLOBAL_HOST = 'http://192.168.1.106:8080/compustrom'
         {
             // Pasa los parámetros del REQUEST a un Objeto
 	        var objSearch = location.search.substring(1).split("&").reduce(function(result, value) {
@@ -23,9 +24,11 @@
 	        GLOBAL_HOST = objSearch.GLOBAL_HOST || GLOBAL_HOST;
         }
                   
-        mxBasePath = 'vendor/mxgraph/src';
+        // mxBasePath = 'vendor/mxgraph/src';
     </script>
-     <script type="text/javascript" src="vendor/mxgraph/src/js/mxClient.js"></script>
+    <!-- <script type="text/javascript" src="vendor/mxgraph/src/js/mxClient.js"></script> -->
+    <!-- TODO: Ideal seria poder evitar esta carga y hacerla desde el paquete mxGraph -->
+    <script type="text/javascript" src="/packages/local/mxgraph/src/mxClient.js"></script>
     <!--
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...
