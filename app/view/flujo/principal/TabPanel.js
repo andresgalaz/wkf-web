@@ -5,7 +5,7 @@ Ext.define('wkf.view.flujo.principal.TabPanel',{
     requires: [
         'wkf.view.flujo.principal.GrillaEtapas',
         'wkf.view.flujo.principal.GrillaEtapaFuncion',
-        'wkf.view.flujo.principal.GrillaAcciones',
+        'wkf.view.flujo.principal.GrillaAccion',
         'wkf.view.flujo.principal.GrillaAccionFuncion'
     ],
 
@@ -25,6 +25,7 @@ Ext.define('wkf.view.flujo.principal.TabPanel',{
             items: [
                 {
                     xtype: 'flujo-principal-grillaetapas',
+                    reference: 'gpEtapa',
                     bind: {
                         store: '{stEtapa}'
                     },

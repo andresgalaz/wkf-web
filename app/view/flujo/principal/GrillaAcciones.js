@@ -1,4 +1,4 @@
-Ext.define('wkf.view.flujo.principal.GrillaAcciones',{
+Ext.define('wkf.view.flujo.principal.GrillaAccion',{
     extend: 'Ext.grid.Panel',
     xtype: 'flujo-principal-grillaacciones',
 
@@ -11,7 +11,7 @@ Ext.define('wkf.view.flujo.principal.GrillaAcciones',{
         '->',
         {
             text: 'Nueva Accion',
-            handler: 'onGrillaAccionesNueva'
+            handler: 'onGrillaAccionNueva'
         }
     ],
 
@@ -45,13 +45,13 @@ Ext.define('wkf.view.flujo.principal.GrillaAcciones',{
             items: [
                 {
                     iconCls: 'x-fa fa-info-circle',
-                    handler: 'onGrillaAccionesVerDetalle',
+                    handler: 'onGrillaAccionVerDetalle',
                     tooltip: 'Ver detalles accion',
                 },
                 {
                     iconCls: 'x-fa fa-minus-circle',
                     margin: '0 5 0 0',
-                    handler: 'onGrillaAccionesEliminar',
+                    handler: 'onGrillaAccionEliminar',
                     tooltip: 'Eliminar accion',
                 }
             ]
