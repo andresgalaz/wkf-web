@@ -6,6 +6,108 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         // 'wkf.MxGraph'
     ],
 
+    seleccionarAccion: function(cEtapaOrigen, cAccion) {
+        console.log('seleccionarAccion');
+        var me = this,
+        	refs = me.getReferences(),
+            vm = me.getViewModel(),
+            gpEtapa = refs.gpEtapa;
+            gpAccion = refs.gpAccion,
+            stEtapa = vm.getStore('stEtapa'),
+            stEtapaFuncion = vm.getStore('stEtapaFuncion'),
+        	stAccion = vm.getStore('stAccion'),
+        	rowEta = stEtapa.find('cNombre', cEtapaOrigen),
+        	recEtapa = stEtapa.getAt(rowEta),
+        	pEtapaOrigen = recEtapa.get('pEtapa');
+        
+        // Posiciona la grilla etapa
+        gpEtapa.getSelectionModel().select(rowEta);
+        vm.set('etapaSeleccionada', recEtapa );
+        
+        stEtapaFuncion.load({
+            params: {
+                prm_etapa: pEtapaOrigen
+            }
+        });
+        
+        stAccion.load({
+            params: {
+                prm_etapaOrigen: pEtapaOrigen 
+            },
+            callback: function(rec, op, success){
+            	var rowAcc = stAccion.find('cNombre', cAccion);            	
+            	console.log('row accion', cAccion, ':', rowAcc);            	
+                me.onGrillaAccionVerDetalle(gpAccion, rowAcc, 0);
+            }
+        });
+        
+    },   
+    
+    seleccionarEtapa: function(cEtapa) {
+        console.log('seleccionarEtapa');
+        var me = this,
+        	refs = me.getReferences(),
+            vm = me.getViewModel(),
+            gpEtapa = refs.gpEtapa;
+        	stEtapa = vm.getStore('stEtapa'),
+        	rowIdx = stEtapa.find('cNombre', cEtapa);
+        // Posiciona la grilla
+        gpEtapa.getSelectionModel().select(rowIdx);
+        // Llama a ver detalle de la etapa
+        me.onGrillaEtapaVerDetalle(gpEtapa, rowIdx, 0);
+    },
+
+    seleccionarAccion: function(cEtapaOrigen, cAccion) {
+        console.log('seleccionarAccion');
+        var me = this,
+        	refs = me.getReferences(),
+            vm = me.getViewModel(),
+            gpEtapa = refs.gpEtapa;
+            gpAccion = refs.gpAccion,
+            stEtapa = vm.getStore('stEtapa'),
+            stEtapaFuncion = vm.getStore('stEtapaFuncion'),
+        	stAccion = vm.getStore('stAccion'),
+        	rowEta = stEtapa.find('cNombre', cEtapaOrigen),
+        	recEtapa = stEtapa.getAt(rowEta),
+        	pEtapaOrigen = recEtapa.get('pEtapa');
+        
+        // Posiciona la grilla etapa
+        gpEtapa.getSelectionModel().select(rowEta);
+        vm.set('etapaSeleccionada', recEtapa );
+        
+        stEtapaFuncion.load({
+            params: {
+                prm_etapa: pEtapaOrigen
+            }
+        });
+        
+        stAccion.load({
+            params: {
+                prm_etapaOrigen: pEtapaOrigen 
+            },
+            callback: function(rec, op, success){
+            	var rowAcc = stAccion.find('cNombre', cAccion);            	
+            	console.log('row accion', cAccion, ':', rowAcc);            	
+                me.onGrillaAccionVerDetalle(gpAccion, rowAcc, 0);
+            }
+        });
+        
+    },   
+    
+    seleccionarEtapa: function(cEtapa) {
+        console.log('seleccionarEtapa');
+        var me = this,
+        	refs = me.getReferences(),
+            vm = me.getViewModel(),
+            gpEtapa = refs.gpEtapa;
+        	stEtapa = vm.getStore('stEtapa'),
+        	rowIdx = stEtapa.find('cNombre', cEtapa);
+        // Posiciona la grilla
+        gpEtapa.getSelectionModel().select(rowIdx);
+        // Llama a ver detalle de la etapa
+        me.onGrillaEtapaVerDetalle(gpEtapa, rowIdx, 0);
+    },
+    
     seleccionarFlujo: function() {
         console.log('seleccionarFlujo');
         var me = this,
@@ -331,13 +433,14 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
     	
         refs.mxGraficoFlujo.leer({ 
         	pFlujo : vm.get('flujoSeleccionado').pFlujo,
+        	viewController: me,
         	reDibujar : true
         });        
     	
     },    
     
-    onGrillaAccionesNueva: function() {
-        console.log('onGrillaAccionesNueva');
+    onGrillaAccionNueva: function() {
+        console.log('onGrillaAccionNueva');
         var me = this,
             refs = me.getReferences(),
             detallePanel = refs.detallePanel,
@@ -374,8 +477,8 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         
     },
 
-    onGrillaAccionesEliminar: function(grid, rowIndex, colIndex) {
-        console.log('onGrillaAccionesEliminar');
+    onGrillaAccionEliminar: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaAccionEliminar');
         var me = this,
 	        rec = grid.getStore().getAt(rowIndex),
 	        pAccion = rec.get('pAccion');
@@ -397,16 +500,18 @@ Ext.define('wkf.view.flujo.FlujoViewController', {
         );
    	},
 
-    onGrillaAccionesVerDetalle: function(grid, rowIndex, colIndex) {
-        console.log('onGrillaAccionesVerDetalle');
+    onGrillaAccionVerDetalle: function(grid, rowIndex, colIndex) {
+        console.log('onGrillaAccionVerDetalle');
         var me = this,
             refs = me.getReferences(),
             vm = me.getViewModel(),
             detallePanel = refs.detallePanel,
             frmAccion = refs.frmAccion,
             tab = refs.tabFlujo,
+            stAccion = vm.getStore('stAccion'),
             stAccionFuncion = vm.getStore('stAccionFuncion'),
-            rec = grid.getStore().getAt(rowIndex),
+            // rec = grid.getStore().getAt(rowIndex),
+            rec = stAccion.getAt(rowIndex),
             // estilo = Ext.decode(rec.get('cJsonData')),
             pAccion = rec.get('pAccion');
 
